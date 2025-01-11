@@ -14,13 +14,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User create(UserCreateDto userCreateDto) {
-        User user = User.builder()
-                .firstName(userCreateDto.getFirstName())
-                .lastName(userCreateDto.getLastName())
-                .email(userCreateDto.getEmail())
-                .password(userCreateDto.getPassword())
-                .nickname(userCreateDto.getNickname())
-                .build();
+        User user = User.from(userCreateDto);
         user = userRepository.save(user);
         return user;
     }
