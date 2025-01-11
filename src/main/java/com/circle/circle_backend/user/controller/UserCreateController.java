@@ -3,6 +3,7 @@ package com.circle.circle_backend.user.controller;
 import com.circle.circle_backend.user.domain.User;
 import com.circle.circle_backend.user.domain.UserCreateDto;
 import com.circle.circle_backend.user.service.UserService;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
+@Builder
 public class UserCreateController {
 
     private final UserService userService;

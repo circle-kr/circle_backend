@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class User {
 
-    private final long id;
+    private final Long id;
     private final String email;
     private final String password;
     private final String firstName;
@@ -17,7 +17,7 @@ public class User {
     private final String profileImage;
 
     @Builder
-    public User(long id, String email, String password, String firstName, String lastName, String nickname, String school, String country, String profileImage) {
+    public User(Long id, String email, String password, String firstName, String lastName, String nickname, String school, String country, String profileImage) {
         this.id = id;
         this.email = email;
         this.password = password;
