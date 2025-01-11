@@ -6,23 +6,27 @@ import lombok.Getter;
 @Getter
 public class User {
 
-    private long id;
-    private String email;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private String nickName;
-    private String school;
-    private String country;
-    private String profileImage;
+    private final long id;
+    private final String email;
+    private final String password;
+    private final String firstName;
+    private final String lastName;
+    private final String nickname;
+    private final String school;
+    private final String country;
+    private final String profileImage;
 
     @Builder
-    public User(String email, String password, String firstName, String lastName, String nickName) {
+    public User(long id, String email, String password, String firstName, String lastName, String nickname, String school, String country, String profileImage) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.nickName = nickName;
+        this.nickname = nickname;
+        this.school = school;
+        this.country = country;
+        this.profileImage = profileImage;
     }
 
 }

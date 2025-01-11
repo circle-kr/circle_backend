@@ -19,7 +19,7 @@ public class UserService {
                 .lastName(userCreateDto.getLastName())
                 .email(userCreateDto.getEmail())
                 .password(userCreateDto.getPassword())
-                .nickName(userCreateDto.getNickName())
+                .nickname(userCreateDto.getNickname())
                 .build();
         user = userRepository.save(user);
         return user;

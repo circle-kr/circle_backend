@@ -2,8 +2,10 @@ package com.circle.circle_backend.user.controller;
 
 import com.circle.circle_backend.user.domain.User;
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class UserResponse {
     private long id;
     private String email;
@@ -14,7 +16,7 @@ public class UserResponse {
         return UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
-                .nickname(user.getNickName())
+                .nickname(user.getNickname())
                 .build();
     }
 

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "users")
 public class UserEntity {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
@@ -39,21 +40,24 @@ public class UserEntity {
         userEntity.password = user.getPassword();
         userEntity.firstName = user.getFirstName();
         userEntity.lastName = user.getLastName();
-        userEntity.nickname = user.getNickName();
+        userEntity.nickname = user.getNickname();
         userEntity.school = user.getSchool();
         userEntity.country = user.getCountry();
         userEntity.profileImage = user.getProfileImage();
         return userEntity;
     }
 
-    // FIXME: 추후 수정 필요
     public User toUser() {
         return User.builder()
-                .nickName(nickname)
-                .firstName(firstName)
-                .lastName(lastName)
+                .id(id)
                 .email(email)
                 .password(password)
+                .firstName(firstName)
+                .lastName(lastName)
+                .nickname(nickname)
+                .school(school)
+                .country(country)
+                .profileImage(profileImage)
                 .build();
     }
 }
