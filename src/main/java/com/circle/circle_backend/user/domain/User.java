@@ -1,6 +1,5 @@
 package com.circle.circle_backend.user.domain;
 
-import com.circle.circle_backend.security.service.PasswordUtils;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -30,12 +29,12 @@ public class User {
         this.profileImage = profileImage;
     }
 
-    public static User from(UserCreateRequest userCreateRequest) {
+    public static User from(UserCreateRequest userCreateRequest, String encodedPassword) {
         return User.builder()
                 .firstName(userCreateRequest.getFirstName())
                 .lastName(userCreateRequest.getLastName())
                 .email(userCreateRequest.getEmail())
-                .password(userCreateRequest.getPassword())
+                .password(encodedPassword)
                 .nickname(userCreateRequest.getNickname())
                 .build();
     }
