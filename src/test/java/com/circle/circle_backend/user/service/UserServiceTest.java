@@ -1,7 +1,8 @@
 package com.circle.circle_backend.user.service;
 
+import com.circle.circle_backend.security.service.PasswordUtils;
 import com.circle.circle_backend.user.domain.User;
-import com.circle.circle_backend.user.domain.UserCreateDto;
+import com.circle.circle_backend.user.domain.UserCreateRequest;
 import com.circle.circle_backend.user.mock.FakeUserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class UserServiceTest {
     @Test
     void UserCreateDto로_유저를_생성할_수_있다() {
         // given
-        UserCreateDto userCreateDto = UserCreateDto.builder()
+        UserCreateRequest userCreateRequest = UserCreateRequest.builder()
                 .email("test@email.com")
                 .password("password")
                 .firstName("Test")
@@ -31,7 +32,7 @@ class UserServiceTest {
                 .build();
 
         // when
-        User user = userService.create(userCreateDto);
+        User user = userService.create(userCreateRequest);
 
         // then
         assertThat(user.getEmail()).isEqualTo("test@email.com");

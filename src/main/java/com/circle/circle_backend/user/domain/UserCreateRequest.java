@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class UserCreateDto {
+public class UserCreateRequest {
     private String firstName;
     private String lastName;
     private String nickname;

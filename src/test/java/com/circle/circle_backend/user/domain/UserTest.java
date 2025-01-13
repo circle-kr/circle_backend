@@ -9,7 +9,7 @@ class UserTest {
     @Test
     public void User를_UserCreateDto로_생성할_수_있다() {
         // given
-        UserCreateDto userCreateDto = UserCreateDto.builder()
+        UserCreateRequest userCreateRequest = UserCreateRequest.builder()
                 .email("test@test.com")
                 .firstName("test")
                 .lastName("test")
@@ -18,7 +18,7 @@ class UserTest {
                 .build();
 
         // when
-        User user = User.from(userCreateDto);
+        User user = User.from(userCreateRequest);
 
         // then
         assertThat(user.getEmail()).isEqualTo("test@test.com");
