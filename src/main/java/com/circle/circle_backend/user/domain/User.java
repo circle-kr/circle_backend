@@ -1,5 +1,6 @@
 package com.circle.circle_backend.user.domain;
 
+import com.circle.circle_backend.security.service.PasswordUtils;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -29,14 +30,13 @@ public class User {
         this.profileImage = profileImage;
     }
 
-    // TODO: 비밀번호 암호화하여 저장
-    public static User from(UserCreateDto userCreateDto) {
+    public static User from(UserCreateRequest userCreateRequest) {
         return User.builder()
-                .firstName(userCreateDto.getFirstName())
-                .lastName(userCreateDto.getLastName())
-                .email(userCreateDto.getEmail())
-                .password(userCreateDto.getPassword())
-                .nickname(userCreateDto.getNickname())
+                .firstName(userCreateRequest.getFirstName())
+                .lastName(userCreateRequest.getLastName())
+                .email(userCreateRequest.getEmail())
+                .password(userCreateRequest.getPassword())
+                .nickname(userCreateRequest.getNickname())
                 .build();
     }
 
