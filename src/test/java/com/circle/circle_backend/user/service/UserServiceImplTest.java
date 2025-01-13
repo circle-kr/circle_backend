@@ -1,6 +1,5 @@
 package com.circle.circle_backend.user.service;
 
-import com.circle.circle_backend.security.service.PasswordUtils;
 import com.circle.circle_backend.user.domain.User;
 import com.circle.circle_backend.user.domain.UserCreateRequest;
 import com.circle.circle_backend.user.mock.FakeUserRepository;
@@ -9,13 +8,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class UserServiceTest {
+class UserServiceImplTest {
 
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @BeforeEach
     void init() {
-        this.userService = UserService.builder()
+        this.userServiceImpl = UserServiceImpl.builder()
                 .userRepository(new FakeUserRepository())
                 .build();
     }
@@ -32,7 +31,7 @@ class UserServiceTest {
                 .build();
 
         // when
-        User user = userService.create(userCreateRequest);
+        User user = userServiceImpl.create(userCreateRequest);
 
         // then
         assertThat(user.getEmail()).isEqualTo("test@email.com");
