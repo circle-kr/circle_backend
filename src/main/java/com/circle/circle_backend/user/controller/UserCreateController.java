@@ -1,8 +1,7 @@
 package com.circle.circle_backend.user.controller;
 
 import com.circle.circle_backend.user.domain.User;
-import com.circle.circle_backend.user.domain.UserCreateDto;
-import com.circle.circle_backend.user.service.UserService;
+import com.circle.circle_backend.user.domain.UserCreateRequest;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,8 +20,8 @@ public class UserCreateController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserResponse> create(@RequestBody UserCreateDto userCreateDto) {
-        User user = userService.create(userCreateDto);
+    public ResponseEntity<UserResponse> create(@RequestBody UserCreateRequest userCreateRequest) {
+        User user = userService.create(userCreateRequest);
         return ResponseEntity.
                 status(HttpStatus.CREATED)
                 .body(UserResponse.from(user));

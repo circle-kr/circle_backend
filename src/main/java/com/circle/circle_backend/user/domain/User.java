@@ -29,14 +29,13 @@ public class User {
         this.profileImage = profileImage;
     }
 
-    // TODO: 비밀번호 암호화하여 저장
-    public static User from(UserCreateDto userCreateDto) {
+    public static User from(UserCreateRequest userCreateRequest, String encodedPassword) {
         return User.builder()
-                .firstName(userCreateDto.getFirstName())
-                .lastName(userCreateDto.getLastName())
-                .email(userCreateDto.getEmail())
-                .password(userCreateDto.getPassword())
-                .nickname(userCreateDto.getNickname())
+                .firstName(userCreateRequest.getFirstName())
+                .lastName(userCreateRequest.getLastName())
+                .email(userCreateRequest.getEmail())
+                .password(encodedPassword)
+                .nickname(userCreateRequest.getNickname())
                 .build();
     }
 

@@ -1,9 +1,11 @@
 package com.circle.circle_backend.common;
 
 import com.circle.circle_backend.user.controller.UserCreateController;
+import com.circle.circle_backend.user.controller.UserService;
+import com.circle.circle_backend.user.mock.FakePasswordUtils;
 import com.circle.circle_backend.user.mock.FakeUserRepository;
 import com.circle.circle_backend.user.service.UserRepository;
-import com.circle.circle_backend.user.service.UserService;
+import com.circle.circle_backend.user.service.UserServiceImpl;
 
 public class TestContainer {
 
@@ -13,8 +15,9 @@ public class TestContainer {
 
     public TestContainer() {
         this.userRepository = new FakeUserRepository();
-        this.userService = UserService.builder()
+        this.userService = UserServiceImpl.builder()
                 .userRepository(this.userRepository)
+                .passwordUtils(new FakePasswordUtils())
                 .build();
         this.userCreateController = UserCreateController.builder()
                 .userService(this.userService)
