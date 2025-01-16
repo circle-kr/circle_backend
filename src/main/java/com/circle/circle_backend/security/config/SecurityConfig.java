@@ -1,5 +1,12 @@
 package com.circle.circle_backend.security.config;
 
+import com.circle.circle_backend.security.filter.JwtAuthenticationFilter;
+import com.circle.circle_backend.security.filter.JwtAuthorizationFilter;
+import com.circle.circle_backend.security.service.UserDetailsServiceImpl;
+import com.circle.circle_backend.security.utils.JwtTokenUtils;
+import jakarta.servlet.Filter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,55 +15,70 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable) // CSRF 보호 비활성화
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/users").permitAll() // `/api/users`는 인증 없이 접근 가능
-                        .requestMatchers("/api/login").permitAll() // `/api/login`도 인증 없이 접근 가능
-                        .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
-                );
-
-        return http.build();
-    }
-
-
-    @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService); // 사용자 인증에 필요한 UserDetailsService 설정
-        authenticationProvider.setPasswordEncoder(passwordEncoder); // 암호화된 비밀번호 확인을 위한 PasswordEncoder 설정
-
-        return new ProviderManager(authenticationProvider);
-    }
-
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails userDetails = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .build();
-
-        return new InMemoryUserDetailsManager(userDetails);
-    }
+    private final JwtTokenUtils jwtTokenUtils;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsServiceImpl);
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return new ProviderManager(authenticationProvider);
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtTokenUtils);
+        filter.setAuthenticationManager(authenticationManager()); // AuthenticationManager 설정
+        filter.setFilterProcessesUrl("/api/login"); // 커스텀 로그인 URL 설정
+        return filter;
+    }
+
+    @Bean
+    public Filter jwtAuthorizationFilter() {
+        return new JwtAuthorizationFilter(jwtTokenUtils, userDetailsServiceImpl);
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                // CSRF 보호 비활성화
+                .csrf(AbstractHttpConfigurer::disable)
+                // 기본 설정인 SessionCreationPolicy을 사용하지 않고 JWT 사용하기 위함
+                .sessionManagement((sessionManagement) ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+
+                // 요정 인증 설정
+                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
+                        .requestMatchers("/api/users").permitAll() // `/api/users`는 인증 없이 접근 가능
+                        .requestMatchers("/api/login").permitAll() // `/api/login`는 인증 없이 접근 가능
+                        .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
+                )
+                // 필터 순서 설정
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) // 인증 필터 먼저 실행
+                .addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class)
+                ;
+
+        return http.build();
+    }
+
 
 }
