@@ -1,6 +1,6 @@
 package com.circle.circle_backend.circle.controller;
 
-import com.circle.circle_backend.circle.controller.port.CircleCreateResponse;
+import com.circle.circle_backend.circle.controller.port.CircleResponse;
 import com.circle.circle_backend.circle.domain.port.CircleCreateRequest;
 import com.circle.circle_backend.circle.controller.port.CircleService;
 import com.circle.circle_backend.circle.domain.Circle;
@@ -20,10 +20,10 @@ public class CircleCreateController {
     private final CircleService circleService;
 
     @PostMapping
-    public ResponseEntity<CircleCreateResponse> create(@RequestBody CircleCreateRequest circleCreateRequest) {
+    public ResponseEntity<CircleResponse> create(@RequestBody CircleCreateRequest circleCreateRequest) {
         Circle circle = circleService.create(circleCreateRequest);
         return ResponseEntity.
                 status(HttpStatus.CREATED)
-                .body(CircleCreateResponse.from(circle));
+                .body(CircleResponse.from(circle));
     }
 }

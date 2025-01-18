@@ -68,8 +68,7 @@ public class SecurityConfig {
                 // 요정 인증 설정
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
-                        .requestMatchers("/api/users").permitAll() // `/api/users`는 인증 없이 접근 가능
-                        .requestMatchers("/api/login").permitAll() // `/api/login`는 인증 없이 접근 가능
+                        .requestMatchers("/api/**").permitAll() // `/api/users`는 인증 없이 접근 가능
                         .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
                 )
                 // 필터 순서 설정
