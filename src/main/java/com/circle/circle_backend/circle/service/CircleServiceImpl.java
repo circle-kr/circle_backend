@@ -25,7 +25,7 @@ public class CircleServiceImpl implements CircleService {
     }
 
     @Override
-    public List<Circle> read(Category category) {
+    public List<Circle> readCircles(Category category) {
         return circleRepository.findByCategory(category).orElse(Collections.emptyList());
     }
 }

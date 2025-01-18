@@ -19,8 +19,8 @@ public class CircleReadController {
     public final CircleService circleService;
 
     @GetMapping
-    public ResponseEntity<List<CircleReadResponse>> read(@RequestParam(defaultValue = "LANGUAGE")Category category) {
-        List<Circle> circles = circleService.read(category);
+    public ResponseEntity<List<CircleReadResponse>> readCircles(@RequestParam(defaultValue = "LANGUAGE")Category category) {
+        List<Circle> circles = circleService.readCircles(category);
         List<CircleReadResponse> circleReadResponses = circles.stream()
                 .map(CircleReadResponse::from)
                 .toList();

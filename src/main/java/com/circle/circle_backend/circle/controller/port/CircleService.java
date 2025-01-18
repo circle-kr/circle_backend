@@ -9,5 +9,5 @@ import java.util.List;
 public interface CircleService {
     Circle create(CircleCreateRequest circleCreateRequest);
 
-    List<Circle> read(Category category);
+    List<Circle> readCircles(Category category);
 }
