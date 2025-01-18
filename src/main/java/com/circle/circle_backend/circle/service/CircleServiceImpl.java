@@ -1,11 +1,15 @@
 package com.circle.circle_backend.circle.service;
 
+import com.circle.circle_backend.circle.domain.enums.Category;
 import com.circle.circle_backend.circle.domain.port.CircleCreateRequest;
 import com.circle.circle_backend.circle.controller.port.CircleService;
 import com.circle.circle_backend.circle.domain.Circle;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Transactional
@@ -17,7 +21,11 @@ public class CircleServiceImpl implements CircleService {
     public Circle create(CircleCreateRequest circleCreateRequest) {
         Circle circle = Circle.from(circleCreateRequest);
         circle = circleRepository.save(circle);
-
         return circle;
+    }
+
+    @Override
+    public List<Circle> read(Category category) {
+        return circleRepository.findByCategory(category).orElse(Collections.emptyList());
     }
 }
