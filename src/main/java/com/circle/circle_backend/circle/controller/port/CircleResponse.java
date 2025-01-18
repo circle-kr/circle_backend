@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Builder
-public class CircleCreateResponse {
+public class CircleResponse {
     private Long id;
     private String name;
     private String introduce;
@@ -17,8 +17,8 @@ public class CircleCreateResponse {
     private Category category;
     private List<Characteristic> characteristics = new ArrayList<>();
 
-    public static CircleCreateResponse from(Circle circle) {
-        return CircleCreateResponse.builder()
+    public static CircleResponse from(Circle circle) {
+        return CircleResponse.builder()
                 .id(circle.getId())
                 .name(circle.getName())
                 .introduce(circle.getIntroduce())
