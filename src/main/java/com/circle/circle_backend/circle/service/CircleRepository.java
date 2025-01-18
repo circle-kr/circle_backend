@@ -12,4 +12,6 @@ public interface CircleRepository {
     Circle save(Circle circle);
 
     Optional<List<Circle>> findByCategory(Category category);
+
+    Optional<Circle> findById(Long id);
 }

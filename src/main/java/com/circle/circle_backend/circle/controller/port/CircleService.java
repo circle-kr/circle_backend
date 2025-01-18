@@ -10,4 +10,8 @@ public interface CircleService {
     Circle create(CircleCreateRequest circleCreateRequest);
 
     List<Circle> readCircles(Category category);
+
+    Circle readCircleInfo(Long id);
+
+
 }
