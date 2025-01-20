@@ -30,8 +30,8 @@ public class CircleRepositoryImpl implements CircleRepository {
     }
 
     @Override
-    public Optional<Circle> findById(Long id) {
-        return circleJpaRepository.findById(id).map(CircleEntity::toCircle);
+    public Optional<CircleEntity> findById(Long id) {
+        return circleJpaRepository.findById(id);
     }
 
 }

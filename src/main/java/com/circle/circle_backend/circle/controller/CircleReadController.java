@@ -29,9 +29,9 @@ public class CircleReadController {
                 .body(circleReadResponses);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CircleResponse> readCircleInfo(@PathVariable Long id) {
-        Circle circle = circleService.readCircleInfo(id);
+    @GetMapping("/{circleId}")
+    public ResponseEntity<CircleResponse> readCircleInfo(@PathVariable Long circleId) {
+        Circle circle = circleService.readCircleInfo(circleId);
         CircleResponse circleReadResponses = CircleResponse.from(circle);
         return ResponseEntity.
                 status(HttpStatus.OK)
