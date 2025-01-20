@@ -3,6 +3,7 @@ package com.circle.circle_backend.circle.infrastructure.entity;
 import com.circle.circle_backend.circle.domain.Circle;
 import com.circle.circle_backend.circle.domain.enums.Category;
 import com.circle.circle_backend.circle.domain.enums.Characteristic;
+import com.circle.circle_backend.circle.domain.port.CircleUpdateRequest;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -51,5 +52,14 @@ public class CircleEntity {
                 .category(this.category)
                 .characteristics(this.characteristics)
                 .build();
+    }
+
+    public CircleEntity updateFrom(CircleUpdateRequest circleUpdateRequest) {
+        if (circleUpdateRequest.name != null) this.name = circleUpdateRequest.name;
+        if (circleUpdateRequest.introduce != null) this.introduce = circleUpdateRequest.introduce;
+        if (circleUpdateRequest.notification != null) this.notification = circleUpdateRequest.notification;
+        if (circleUpdateRequest.category != null) this.category = circleUpdateRequest.category;
+        if (circleUpdateRequest.characteristics != null) this.characteristics = new ArrayList<>(circleUpdateRequest.characteristics);
+        return this;
     }
 }
