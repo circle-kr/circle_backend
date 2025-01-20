@@ -1,0 +1,41 @@
+package com.circle.circle_backend.circle.infrastructure.entity;
+
+import com.circle.circle_backend.circle.domain.CircleMember;
+import com.circle.circle_backend.circle.domain.enums.UserRole;
+import com.circle.circle_backend.user.infrastructure.entity.UserEntity;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "circle_members")
+public class CircleMemberEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @ManyToOne
+    @JoinColumn(name = "circle_id")
+    private CircleEntity circleEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
+    private UserRole userRole;
+
+    public static CircleMemberEntity from(CircleMember circleMember) {
+        CircleMemberEntity circleMemberEntity = new CircleMemberEntity();
+        circleMemberEntity.circleEntity = CircleEntity.from(circleMember.getCircle());
+        circleMemberEntity.userEntity = UserEntity.from(circleMember.getUser());
+        circleMemberEntity.userRole = circleMember.getUserRole();
+        return circleMemberEntity;
+    }
+
+    public CircleMember toCircleMember() {
+        return CircleMember.builder()
+                .circle(circleEntity.toCircle())
+                .user(userEntity.toUser())
+                .userRole(this.userRole)
+                .build();
+    }
+}
