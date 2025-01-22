@@ -1,0 +1,58 @@
+package com.circle.circle_backend.Enrollment.infrastructure.entity;
+
+import com.circle.circle_backend.Enrollment.domain.Enrollment;
+import com.circle.circle_backend.Enrollment.domain.enums.EnrollmentState;
+import com.circle.circle_backend.circle.infrastructure.entity.CircleEntity;
+import com.circle.circle_backend.user.infrastructure.entity.UserEntity;
+import jakarta.persistence.*;
+import lombok.Getter;
+
+@Entity
+@Table(name = "enrollments")
+@Getter
+public class EnrollmentEntity {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "circle_id")
+    CircleEntity circle;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    UserEntity user;
+
+    @Column(name = "enrollment_state")
+    EnrollmentState enrollmentState;
+
+    public static EnrollmentEntity from(Enrollment enrollment) {
+        EnrollmentEntity enrollmentEntity = new EnrollmentEntity();
+        enrollmentEntity.user = UserEntity.from(enrollment.getUser());
+        enrollmentEntity.circle = CircleEntity.from(enrollment.getCircle());
+        enrollmentEntity.enrollmentState = enrollment.getEnrollmentState();
+        return enrollmentEntity;
+    }
+
+    public EnrollmentEntity updateEnrollmentState() {
+        if (this.enrollmentState == EnrollmentState.PENDING) {
+            this.enrollmentState = EnrollmentState.DELETED;
+        } else if (this.enrollmentState == EnrollmentState.DELETED) {
+            this.enrollmentState = EnrollmentState.PENDING;
+        }
+        return this;
+    }
+
+    public Enrollment toEnrollment() {
+        return Enrollment.builder()
+                .id(this.id)
+                .user(this.user.toUser())
+                .circle(this.circle.toCircle())
+                .enrollmentState(this.enrollmentState)
+                .build();
+    }
+
+    public boolean canUpdateState() {
+        return this.enrollmentState == EnrollmentState.DELETED ||
+                this.enrollmentState == EnrollmentState.PENDING;
+    }
+}

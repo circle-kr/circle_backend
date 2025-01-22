@@ -15,4 +15,6 @@ public interface CircleRepository {
     Optional<List<Circle>> findByCategory(Category category);
 
     Optional<CircleEntity> findById(Long id);
+
+
 }

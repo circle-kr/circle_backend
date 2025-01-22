@@ -11,7 +11,7 @@ public class CircleMemberEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "circle_id")
@@ -33,8 +33,8 @@ public class CircleMemberEntity {
 
     public CircleMember toCircleMember() {
         return CircleMember.builder()
-                .circle(circleEntity.toCircle())
-                .user(userEntity.toUser())
+                .circle(this.circleEntity.toCircle())
+                .user(this.userEntity.toUser())
                 .userRole(this.userRole)
                 .build();
     }
