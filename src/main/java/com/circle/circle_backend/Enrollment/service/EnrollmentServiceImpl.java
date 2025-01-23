@@ -11,6 +11,8 @@ import com.circle.circle_backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class EnrollmentServiceImpl implements EnrollmentService {
@@ -23,20 +25,35 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         Circle circle = circleRepository.findById(circleId)
                 .orElseThrow(() -> new ResourceNotFoundException("circle", circleId))
                 .toCircle();
-        EnrollmentEntity enrollmentEntity = enrollmentRepository.findByUserIdAndCircleId(user.getId(), circleId);
 
-        if (enrollmentEntity == null) {
-            Enrollment enrollment = Enrollment.builder()
+        Optional<EnrollmentEntity> optionalEnrollmentEntity =
+                enrollmentRepository.findByUserIdAndCircleId(user.getId(), circleId);
+
+        EnrollmentEntity enrollmentEntity;
+
+        if (optionalEnrollmentEntity.isEmpty()) {
+            Enrollment newEntity = Enrollment.builder()
                     .user(user)
                     .circle(circle)
                     .enrollmentState(EnrollmentState.PENDING)
                     .build();
-            enrollmentEntity = enrollmentRepository.save(enrollment);
+            enrollmentEntity = enrollmentRepository.save(newEntity);
         } else {
+            enrollmentEntity = optionalEnrollmentEntity.get();
             if (enrollmentEntity.canUpdateState()) {
                 enrollmentEntity = enrollmentEntity.updateEnrollmentState();
             }
         }
         return enrollmentEntity.toEnrollment();
+    }
+
+
+    @Override
+    public Optional<EnrollmentEntity> get(User user, Long circleId) {
+        circleRepository.findById(circleId)
+                .orElseThrow(() -> new ResourceNotFoundException("circle", circleId))
+                .toCircle();
+
+        return enrollmentRepository.findByUserIdAndCircleId(user.getId(), circleId);
     }
 }
