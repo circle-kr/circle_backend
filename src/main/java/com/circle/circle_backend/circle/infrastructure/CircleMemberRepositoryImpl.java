@@ -7,6 +7,7 @@ import com.circle.circle_backend.circle.service.CircleMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,7 +22,12 @@ public class CircleMemberRepositoryImpl implements CircleMemberRepository {
     }
 
     @Override
-    public Optional<CircleMemberEntity> findByCircleEntity_IdAndUserEntity_Id(Long circleId, Long id) {
-        return circleMemberJpaRepository.findByCircleEntity_IdAndUserEntity_Id(circleId, id);
+    public Optional<CircleMemberEntity> findByCircleIdAndUserId(Long circleId, Long id) {
+        return circleMemberJpaRepository.findByCircleEntityIdAndUserEntityId(circleId, id);
+    }
+
+    @Override
+    public List<CircleMemberEntity> findByUserId(Long userId) {
+        return circleMemberJpaRepository.findByUserEntityId(userId);
     }
 }

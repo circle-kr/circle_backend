@@ -49,7 +49,7 @@ public class CircleServiceImpl implements CircleService {
         CircleEntity circleEntity = circleRepository.findById(circleId)
                 .orElseThrow(() -> new ResourceNotFoundException("circle", circleId));
 
-        CircleMember circleMember = circleMemberRepository.findByCircleEntity_IdAndUserEntity_Id(circleId, user.getId())
+        CircleMember circleMember = circleMemberRepository.findByCircleIdAndUserId(circleId, user.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("circleMember", circleId)).toCircleMember();
 
         if (circleMember.getUserRole() != UserRole.ADMIN) {

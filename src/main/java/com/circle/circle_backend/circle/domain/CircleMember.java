@@ -22,4 +22,7 @@ public class CircleMember {
     }
 
 
+    public boolean isAdmin() {
+        return userRole == UserRole.ADMIN;
+    }
 }

@@ -38,4 +38,6 @@ public class CircleMemberEntity {
                 .userRole(this.userRole)
                 .build();
     }
+
+
 }
