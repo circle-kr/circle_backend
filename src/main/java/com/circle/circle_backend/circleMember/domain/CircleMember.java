@@ -9,7 +9,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class CircleMember {
-
     private Circle circle;
     private User user;
     private UserRole userRole;
@@ -21,7 +20,6 @@ public class CircleMember {
                 .userRole(userRole)
                 .build();
     }
-
 
     public boolean isAdmin() {
         return userRole == UserRole.ADMIN;

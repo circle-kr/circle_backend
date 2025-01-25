@@ -30,4 +30,9 @@ public class CircleMemberRepositoryImpl implements CircleMemberRepository {
     public List<CircleMemberEntity> findByUserId(Long userId) {
         return circleMemberJpaRepository.findByUserEntityId(userId);
     }
+
+    @Override
+    public List<CircleMemberEntity> findById(Long circleId) {
+        return circleMemberJpaRepository.findByCircleEntityId(circleId);
+    }
 }

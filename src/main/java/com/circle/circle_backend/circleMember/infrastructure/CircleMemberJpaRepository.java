@@ -10,4 +10,6 @@ public interface CircleMemberJpaRepository extends JpaRepository<CircleMemberEnt
     Optional<CircleMemberEntity> findByCircleEntityIdAndUserEntityId(Long circleId, Long userId);
 
     List<CircleMemberEntity> findByUserEntityId(Long userId);
+
+    List<CircleMemberEntity> findByCircleEntityId(Long circleId);
 }

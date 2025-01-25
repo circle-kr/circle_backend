@@ -13,4 +13,6 @@ public interface CircleMemberRepository {
     Optional<CircleMemberEntity> findByCircleIdAndUserId(Long circleId, Long userId);
 
     List<CircleMemberEntity> findByUserId(Long userId);
+
+    List<CircleMemberEntity> findById(Long circleId);
 }
