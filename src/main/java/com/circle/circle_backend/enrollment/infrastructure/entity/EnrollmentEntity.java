@@ -1,7 +1,7 @@
-package com.circle.circle_backend.Enrollment.infrastructure.entity;
+package com.circle.circle_backend.enrollment.infrastructure.entity;
 
-import com.circle.circle_backend.Enrollment.domain.Enrollment;
-import com.circle.circle_backend.Enrollment.domain.enums.EnrollmentState;
+import com.circle.circle_backend.enrollment.domain.Enrollment;
+import com.circle.circle_backend.enrollment.domain.enums.EnrollmentState;
 import com.circle.circle_backend.circle.infrastructure.entity.CircleEntity;
 import com.circle.circle_backend.user.infrastructure.entity.UserEntity;
 import jakarta.persistence.*;

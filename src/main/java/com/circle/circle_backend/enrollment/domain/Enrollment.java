@@ -1,7 +1,7 @@
-package com.circle.circle_backend.Enrollment.domain;
+package com.circle.circle_backend.enrollment.domain;
 
 import com.circle.circle_backend.circle.domain.Circle;
-import com.circle.circle_backend.Enrollment.domain.enums.EnrollmentState;
+import com.circle.circle_backend.enrollment.domain.enums.EnrollmentState;
 import com.circle.circle_backend.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
