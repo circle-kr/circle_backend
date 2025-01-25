@@ -13,5 +13,7 @@ public interface EnrollmentRepository {
 
    EnrollmentEntity save(Enrollment enrollment);
 
-    List<EnrollmentEntity> findByCircleIdInAndEnrollmentState(List<Long> circleIds, EnrollmentState enrollmentState);
+   List<EnrollmentEntity> findByCircleIdInAndEnrollmentState(List<Long> circleIds, EnrollmentState enrollmentState);
+
+   Optional<EnrollmentEntity> findById(Long enrollmentId);
 }
