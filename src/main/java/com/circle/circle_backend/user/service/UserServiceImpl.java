@@ -5,6 +5,8 @@ import com.circle.circle_backend.security.utils.PasswordUtils;
 import com.circle.circle_backend.user.controller.UserService;
 import com.circle.circle_backend.user.domain.User;
 import com.circle.circle_backend.user.domain.UserCreateRequest;
+import com.circle.circle_backend.user.domain.UserPatchRequest;
+import com.circle.circle_backend.user.infrastructure.entity.UserEntity;
 import jakarta.transaction.Transactional;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +36,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("user", userId))
                 .toUser();
+    }
+
+    @Override
+    public User patch(User user, UserPatchRequest userPatchRequest) {
+        Long userId = user.getId();
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("user", userId));
+
+        return userEntity.patch(userPatchRequest).toUser();
     }
 }

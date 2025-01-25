@@ -1,7 +1,10 @@
 package com.circle.circle_backend.user.domain;
 
+import com.circle.circle_backend.user.domain.enums.Language;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 public class User {
@@ -13,11 +16,14 @@ public class User {
     private final String lastName;
     private final String nickname;
     private final String school;
+    private final String major;
     private final String country;
+    private final List<Language> languages;
+    private final String bio;
     private final String profileImage;
 
     @Builder
-    public User(Long id, String email, String password, String firstName, String lastName, String nickname, String school, String country, String profileImage) {
+    public User(Long id, String email, String password, String firstName, String lastName, String nickname, String school, String major, String country, List<Language> languages, String bio, String profileImage) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -25,7 +31,10 @@ public class User {
         this.lastName = lastName;
         this.nickname = nickname;
         this.school = school;
+        this.major = major;
         this.country = country;
+        this.languages = languages;
+        this.bio = bio;
         this.profileImage = profileImage;
     }
 
