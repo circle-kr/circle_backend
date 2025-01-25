@@ -22,4 +22,11 @@ public class UserReadController {
 
         return ResponseEntity.ok(UserResponse.from(user));
     }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponse> readUserInfo(@PathVariable Long userId) {
+        User user = userService.readUserInfo(userId);
+
+        return ResponseEntity.ok(UserResponse.from(user));
+    }
 }
