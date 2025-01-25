@@ -11,4 +11,6 @@ public interface UserService {
     User readMyInfo(User user);
 
     User patch(User user, UserPatchRequest userPatchRequest);
+
+    User readUserInfo(Long userId);
 }

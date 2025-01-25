@@ -46,4 +46,11 @@ public class UserServiceImpl implements UserService {
 
         return userEntity.patch(userPatchRequest).toUser();
     }
+
+    @Override
+    public User readUserInfo(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("user", userId))
+                .toUser();
+    }
 }

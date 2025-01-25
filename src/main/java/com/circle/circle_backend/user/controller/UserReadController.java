@@ -17,9 +17,16 @@ public class UserReadController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<UserResponse> readMyInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<MyInfoResponse> readMyInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userService.readMyInfo(userDetails.getUser());
 
-        return ResponseEntity.ok(UserResponse.from(user));
+        return ResponseEntity.ok(MyInfoResponse.from(user));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserInfoResponse> readUserInfo(@PathVariable Long userId) {
+        User user = userService.readUserInfo(userId);
+
+        return ResponseEntity.ok(UserInfoResponse.from(user));
     }
 }
