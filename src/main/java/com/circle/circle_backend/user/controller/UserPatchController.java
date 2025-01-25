@@ -18,9 +18,9 @@ public class UserPatchController {
     private final UserService userService;
 
     @PatchMapping
-    public ResponseEntity<UserResponse> patch(@AuthenticationPrincipal UserDetailsImpl userDetails,
+    public ResponseEntity<MyInfoResponse> patch(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                               @RequestBody UserPatchRequest userPatchRequest) {
         User user = userService.patch(userDetails.getUser(), userPatchRequest);
-        return ResponseEntity.ok(UserResponse.from(user));
+        return ResponseEntity.ok(MyInfoResponse.from(user));
     }
 }
