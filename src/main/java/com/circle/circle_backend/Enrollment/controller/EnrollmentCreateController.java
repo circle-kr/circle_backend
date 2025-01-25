@@ -2,13 +2,13 @@ package com.circle.circle_backend.Enrollment.controller;
 
 import com.circle.circle_backend.Enrollment.controller.port.EnrollmentResponse;
 import com.circle.circle_backend.Enrollment.domain.Enrollment;
+import com.circle.circle_backend.Enrollment.domain.enums.EnrollmentState;
 import com.circle.circle_backend.security.service.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +22,15 @@ public class EnrollmentCreateController {
     public ResponseEntity<EnrollmentResponse> createAndUpdate(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                               @PathVariable Long circleId) {
         Enrollment enrollment =  enrollmentService.createAndUpdate(userDetails.getUser(), circleId);
+        return ResponseEntity.ok()
+                .body(EnrollmentResponse.from(enrollment));
+    }
+
+    @PostMapping("/enrollments/{enrollmentId}")
+    public ResponseEntity<EnrollmentResponse> acceptOrDecline(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                              @PathVariable Long enrollmentId,
+                                                              @RequestParam EnrollmentState enrollmentState) {
+        Enrollment enrollment =  enrollmentService.acceptOrDecline(userDetails.getUser(), enrollmentId, enrollmentState);
         return ResponseEntity.ok()
                 .body(EnrollmentResponse.from(enrollment));
     }

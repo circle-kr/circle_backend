@@ -33,11 +33,15 @@ public class EnrollmentEntity {
         return enrollmentEntity;
     }
 
-    public EnrollmentEntity updateEnrollmentState() {
-        if (this.enrollmentState == EnrollmentState.PENDING) {
+    public EnrollmentEntity updateEnrollmentState(EnrollmentState enrollmentState) {
+        if (enrollmentState == EnrollmentState.PENDING) {
             this.enrollmentState = EnrollmentState.DELETED;
-        } else if (this.enrollmentState == EnrollmentState.DELETED) {
+        } else if (enrollmentState == EnrollmentState.DELETED) {
             this.enrollmentState = EnrollmentState.PENDING;
+        } else if (enrollmentState == EnrollmentState.REJECTED) {
+            this.enrollmentState = EnrollmentState.REJECTED;
+        } else if (enrollmentState == EnrollmentState.ACCEPTED) {
+            this.enrollmentState = EnrollmentState.ACCEPTED;
         }
         return this;
     }

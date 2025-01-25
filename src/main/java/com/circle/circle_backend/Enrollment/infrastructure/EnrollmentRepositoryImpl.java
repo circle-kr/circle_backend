@@ -31,4 +31,9 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
     public List<EnrollmentEntity> findByCircleIdInAndEnrollmentState(List<Long> circleIds, EnrollmentState enrollmentState) {
         return enrollmentJpaRepository.findByCircleIdInAndEnrollmentState(circleIds, enrollmentState);
     }
+
+    @Override
+    public Optional<EnrollmentEntity> findById(Long enrollmentId) {
+        return enrollmentJpaRepository.findById(enrollmentId);
+    }
 }

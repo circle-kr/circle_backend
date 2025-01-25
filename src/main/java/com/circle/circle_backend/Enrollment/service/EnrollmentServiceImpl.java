@@ -6,11 +6,13 @@ import com.circle.circle_backend.Enrollment.domain.enums.EnrollmentState;
 import com.circle.circle_backend.Enrollment.infrastructure.entity.EnrollmentEntity;
 import com.circle.circle_backend.circle.domain.Circle;
 import com.circle.circle_backend.circle.domain.CircleMember;
+import com.circle.circle_backend.circle.domain.enums.UserRole;
 import com.circle.circle_backend.circle.infrastructure.entity.CircleMemberEntity;
 import com.circle.circle_backend.circle.service.CircleMemberRepository;
 import com.circle.circle_backend.circle.service.CircleRepository;
 import com.circle.circle_backend.common.domain.ResourceNotFoundException;
 import com.circle.circle_backend.user.domain.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class EnrollmentServiceImpl implements EnrollmentService {
 
     private final EnrollmentRepository enrollmentRepository;
@@ -46,7 +49,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         } else {
             enrollmentEntity = optionalEnrollmentEntity.get();
             if (enrollmentEntity.canUpdateState()) {
-                enrollmentEntity = enrollmentEntity.updateEnrollmentState();
+                enrollmentEntity = enrollmentEntity.updateEnrollmentState(enrollmentEntity.getEnrollmentState());
             }
         }
         return enrollmentEntity.toEnrollment();
@@ -76,6 +79,28 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         if (circleIds.isEmpty()) return Optional.empty();
 
         return Optional.ofNullable(enrollmentRepository.findByCircleIdInAndEnrollmentState(circleIds, EnrollmentState.PENDING));
+    }
+
+    @Override
+    public Enrollment acceptOrDecline(User user, Long enrollmentId, EnrollmentState enrollmentState) {
+        EnrollmentEntity enrollmentEntity = enrollmentRepository.findById(enrollmentId)
+                .orElseThrow(() -> new ResourceNotFoundException("enrollment", enrollmentId));
+
+        enrollmentEntity = enrollmentEntity.updateEnrollmentState(enrollmentState);
+
+        if (enrollmentState == EnrollmentState.ACCEPTED) {
+            Circle circle = enrollmentEntity.getCircle().toCircle();
+
+            CircleMember circleMember = CircleMember.builder()
+                    .circle(circle)
+                    .user(user)
+                    .userRole(UserRole.MEMBER)
+                    .build();
+
+            circleMemberRepository.save(circleMember);
+        }
+
+        return enrollmentEntity.toEnrollment();
     }
 
 

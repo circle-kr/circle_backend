@@ -1,6 +1,7 @@
 package com.circle.circle_backend.Enrollment.controller;
 
 import com.circle.circle_backend.Enrollment.domain.Enrollment;
+import com.circle.circle_backend.Enrollment.domain.enums.EnrollmentState;
 import com.circle.circle_backend.Enrollment.infrastructure.entity.EnrollmentEntity;
 import com.circle.circle_backend.user.domain.User;
 
@@ -13,4 +14,6 @@ public interface EnrollmentService {
     Optional<EnrollmentEntity> getEnrollmentState(User user, Long circleId);
 
     Optional<List<EnrollmentEntity>> getEnrollments(User user);
+
+    Enrollment acceptOrDecline(User user, Long enrollmentId, EnrollmentState enrollmentState);
 }
