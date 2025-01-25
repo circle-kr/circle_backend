@@ -1,7 +1,7 @@
-package com.circle.circle_backend.Enrollment.infrastructure;
+package com.circle.circle_backend.enrollment.infrastructure;
 
-import com.circle.circle_backend.Enrollment.domain.enums.EnrollmentState;
-import com.circle.circle_backend.Enrollment.infrastructure.entity.EnrollmentEntity;
+import com.circle.circle_backend.enrollment.domain.enums.EnrollmentState;
+import com.circle.circle_backend.enrollment.infrastructure.entity.EnrollmentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

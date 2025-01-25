@@ -1,4 +1,4 @@
-package com.circle.circle_backend.Enrollment.domain.enums;
+package com.circle.circle_backend.enrollment.domain.enums;
 
 public enum EnrollmentState {
     PENDING,

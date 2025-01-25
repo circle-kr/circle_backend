@@ -1,8 +1,8 @@
-package com.circle.circle_backend.Enrollment.controller;
+package com.circle.circle_backend.enrollment.controller;
 
-import com.circle.circle_backend.Enrollment.domain.Enrollment;
-import com.circle.circle_backend.Enrollment.domain.enums.EnrollmentState;
-import com.circle.circle_backend.Enrollment.infrastructure.entity.EnrollmentEntity;
+import com.circle.circle_backend.enrollment.domain.Enrollment;
+import com.circle.circle_backend.enrollment.domain.enums.EnrollmentState;
+import com.circle.circle_backend.enrollment.infrastructure.entity.EnrollmentEntity;
 import com.circle.circle_backend.user.domain.User;
 
 import java.util.List;

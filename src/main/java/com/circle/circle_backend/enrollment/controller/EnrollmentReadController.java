@@ -1,14 +1,9 @@
-package com.circle.circle_backend.Enrollment.controller;
+package com.circle.circle_backend.enrollment.controller;
 
-import com.circle.circle_backend.Enrollment.controller.port.EnrollmentResponse;
-import com.circle.circle_backend.Enrollment.domain.Enrollment;
-import com.circle.circle_backend.Enrollment.infrastructure.entity.EnrollmentEntity;
-import com.circle.circle_backend.circle.controller.port.CircleResponse;
-import com.circle.circle_backend.circle.domain.Circle;
-import com.circle.circle_backend.circle.domain.enums.Category;
+import com.circle.circle_backend.enrollment.controller.port.EnrollmentResponse;
+import com.circle.circle_backend.enrollment.infrastructure.entity.EnrollmentEntity;
 import com.circle.circle_backend.security.service.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;

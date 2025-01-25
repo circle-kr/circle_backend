@@ -1,6 +1,7 @@
-package com.circle.circle_backend.circle.domain;
+package com.circle.circle_backend.circleMember.domain;
 
-import com.circle.circle_backend.circle.domain.enums.UserRole;
+import com.circle.circle_backend.circle.domain.Circle;
+import com.circle.circle_backend.circleMember.domain.enums.UserRole;
 import com.circle.circle_backend.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class CircleMember {
-
     private Circle circle;
     private User user;
     private UserRole userRole;
@@ -20,7 +20,6 @@ public class CircleMember {
                 .userRole(userRole)
                 .build();
     }
-
 
     public boolean isAdmin() {
         return userRole == UserRole.ADMIN;

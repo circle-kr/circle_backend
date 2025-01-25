@@ -1,14 +1,14 @@
-package com.circle.circle_backend.Enrollment.service;
+package com.circle.circle_backend.enrollment.service;
 
-import com.circle.circle_backend.Enrollment.controller.EnrollmentService;
-import com.circle.circle_backend.Enrollment.domain.Enrollment;
-import com.circle.circle_backend.Enrollment.domain.enums.EnrollmentState;
-import com.circle.circle_backend.Enrollment.infrastructure.entity.EnrollmentEntity;
+import com.circle.circle_backend.enrollment.controller.EnrollmentService;
+import com.circle.circle_backend.enrollment.domain.Enrollment;
+import com.circle.circle_backend.enrollment.domain.enums.EnrollmentState;
+import com.circle.circle_backend.enrollment.infrastructure.entity.EnrollmentEntity;
 import com.circle.circle_backend.circle.domain.Circle;
-import com.circle.circle_backend.circle.domain.CircleMember;
-import com.circle.circle_backend.circle.domain.enums.UserRole;
-import com.circle.circle_backend.circle.infrastructure.entity.CircleMemberEntity;
-import com.circle.circle_backend.circle.service.CircleMemberRepository;
+import com.circle.circle_backend.circleMember.domain.CircleMember;
+import com.circle.circle_backend.circleMember.domain.enums.UserRole;
+import com.circle.circle_backend.circleMember.infrastructure.entity.CircleMemberEntity;
+import com.circle.circle_backend.circleMember.service.CircleMemberRepository;
 import com.circle.circle_backend.circle.service.CircleRepository;
 import com.circle.circle_backend.common.domain.ResourceNotFoundException;
 import com.circle.circle_backend.user.domain.User;

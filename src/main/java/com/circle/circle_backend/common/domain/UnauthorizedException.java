@@ -1,6 +1,6 @@
 package com.circle.circle_backend.common.domain;
 
-import com.circle.circle_backend.circle.domain.enums.UserRole;
+import com.circle.circle_backend.circleMember.domain.enums.UserRole;
 
 public class UnauthorizedException extends RuntimeException{
 
