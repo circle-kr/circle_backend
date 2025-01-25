@@ -1,9 +1,9 @@
-package com.circle.circle_backend.circle.infrastructure;
+package com.circle.circle_backend.circleMember.infrastructure;
 
 
-import com.circle.circle_backend.circle.domain.CircleMember;
-import com.circle.circle_backend.circle.infrastructure.entity.CircleMemberEntity;
-import com.circle.circle_backend.circle.service.CircleMemberRepository;
+import com.circle.circle_backend.circleMember.domain.CircleMember;
+import com.circle.circle_backend.circleMember.infrastructure.entity.CircleMemberEntity;
+import com.circle.circle_backend.circleMember.service.CircleMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

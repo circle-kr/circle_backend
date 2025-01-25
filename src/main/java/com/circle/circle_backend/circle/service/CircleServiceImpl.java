@@ -1,13 +1,14 @@
 package com.circle.circle_backend.circle.service;
 
-import com.circle.circle_backend.circle.domain.CircleMember;
+import com.circle.circle_backend.circleMember.domain.CircleMember;
 import com.circle.circle_backend.circle.domain.enums.Category;
-import com.circle.circle_backend.circle.domain.enums.UserRole;
+import com.circle.circle_backend.circleMember.domain.enums.UserRole;
 import com.circle.circle_backend.circle.domain.port.CircleCreateRequest;
 import com.circle.circle_backend.circle.controller.port.CircleService;
 import com.circle.circle_backend.circle.domain.Circle;
 import com.circle.circle_backend.circle.domain.port.CircleUpdateRequest;
 import com.circle.circle_backend.circle.infrastructure.entity.CircleEntity;
+import com.circle.circle_backend.circleMember.service.CircleMemberRepository;
 import com.circle.circle_backend.common.domain.ResourceNotFoundException;
 import com.circle.circle_backend.common.domain.UnauthorizedException;
 import com.circle.circle_backend.user.domain.User;

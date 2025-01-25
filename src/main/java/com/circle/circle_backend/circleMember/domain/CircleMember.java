@@ -1,6 +1,7 @@
-package com.circle.circle_backend.circle.domain;
+package com.circle.circle_backend.circleMember.domain;
 
-import com.circle.circle_backend.circle.domain.enums.UserRole;
+import com.circle.circle_backend.circle.domain.Circle;
+import com.circle.circle_backend.circleMember.domain.enums.UserRole;
 import com.circle.circle_backend.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;

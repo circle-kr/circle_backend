@@ -1,7 +1,8 @@
-package com.circle.circle_backend.circle.infrastructure.entity;
+package com.circle.circle_backend.circleMember.infrastructure.entity;
 
-import com.circle.circle_backend.circle.domain.CircleMember;
-import com.circle.circle_backend.circle.domain.enums.UserRole;
+import com.circle.circle_backend.circle.infrastructure.entity.CircleEntity;
+import com.circle.circle_backend.circleMember.domain.CircleMember;
+import com.circle.circle_backend.circleMember.domain.enums.UserRole;
 import com.circle.circle_backend.user.infrastructure.entity.UserEntity;
 import jakarta.persistence.*;
 
