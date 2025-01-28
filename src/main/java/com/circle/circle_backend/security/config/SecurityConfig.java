@@ -1,5 +1,6 @@
 package com.circle.circle_backend.security.config;
 
+import com.circle.circle_backend.security.filter.CorsFilter;
 import com.circle.circle_backend.security.filter.JwtAuthenticationFilter;
 import com.circle.circle_backend.security.filter.JwtAuthorizationFilter;
 import com.circle.circle_backend.security.service.UserDetailsServiceImpl;
@@ -19,6 +20,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -28,6 +30,7 @@ public class SecurityConfig {
 
     private final JwtTokenUtils jwtTokenUtils;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final CorsFilter corsFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -72,9 +75,9 @@ public class SecurityConfig {
                         .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
                 )
                 // 필터 순서 설정
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) // 인증 필터 먼저 실행
-                .addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class)
-                ;
+                .addFilterBefore(corsFilter, ChannelProcessingFilter.class) // CORS 필터를 가장 앞단에 배치
+                .addFilterBefore(jwtAuthenticationFilter(), JwtAuthorizationFilter.class)
+                .addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
