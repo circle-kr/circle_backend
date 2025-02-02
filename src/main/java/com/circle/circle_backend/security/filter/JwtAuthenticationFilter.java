@@ -1,6 +1,6 @@
 package com.circle.circle_backend.security.filter;
 
-import com.circle.circle_backend.security.filter.port.LoginRequest;
+import com.circle.circle_backend.security.dto.LoginRequest;
 import com.circle.circle_backend.security.utils.JwtTokenUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication(
-            HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+            HttpServletRequest request, HttpServletResponse response) {
         try {
             //json 형태의 String 데이터를 LoginRequest로 변환
             LoginRequest loginRequest = new ObjectMapper().readValue(request.getInputStream(),
@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     )
             );
         } catch (IOException e) {
-            log.error("로그인 시도(attemptAuthentication) 예외 발생 {}", e.getMessage());
+            log.error("로그인 시도(attemptAuthentication) 입출력 예외 발생 {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }
