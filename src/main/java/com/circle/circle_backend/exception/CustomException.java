@@ -1,4 +1,4 @@
-package com.circle.circle_backend.common.exception;
+package com.circle.circle_backend.exception;
 
 import com.circle.circle_backend.common.response.Response;
 import lombok.Getter;
