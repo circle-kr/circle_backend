@@ -59,11 +59,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jwtTokenUtils, userDetailsServiceImpl);
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 // CSRF 보호 비활성화
@@ -75,12 +70,13 @@ public class SecurityConfig {
 
                 // 요청 인증 설정
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+
                         .anyRequest().authenticated() // 그 외 요청은 인증 필요
                 )
                 // 필터 순서 설정
                 .addFilterBefore(corsFilter, ChannelProcessingFilter.class) // CORS 필터
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthorizationFilter(jwtTokenUtils, userDetailsServiceImpl), UsernamePasswordAuthenticationFilter.class);
 
 
         return http.build();
