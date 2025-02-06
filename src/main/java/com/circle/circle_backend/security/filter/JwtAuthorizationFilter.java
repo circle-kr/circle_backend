@@ -3,6 +3,7 @@ package com.circle.circle_backend.security.filter;
 import com.circle.circle_backend.common.response.responseEnum.ErrorResponseEnum;
 import com.circle.circle_backend.exception.impl.AuthException;
 import com.circle.circle_backend.security.utils.JwtTokenUtils;
+import com.circle.circle_backend.user.domain.enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -72,7 +73,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         log.info("인증 객체 생성 시작");
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         log.info("인증 객체 생성 성공");
-        return new UsernamePasswordAuthenticationToken(userDetails, "ROLE_USER", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, Role.ROLE_USER, userDetails.getAuthorities());
     }
 
     // accessToken이 유효하지 않은 경우 - 리프레시 토큰 검증 및 엑세스토큰 재발급
