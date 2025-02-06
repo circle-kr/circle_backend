@@ -1,4 +1,4 @@
-package com.circle.circle_backend.enrollment.controller.dto.response;
+package com.circle.circle_backend.enrollment.dto.response;
 
 import com.circle.circle_backend.enrollment.domain.Enrollment;
 import com.circle.circle_backend.enrollment.domain.enums.EnrollmentState;

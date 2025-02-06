@@ -57,7 +57,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
 
     @Override
-    public Optional<EnrollmentEntity> getEnrollmentState(User user, Long circleId) {
+    public Optional<EnrollmentEntity> readEnrollmentState(User user, Long circleId) {
         circleRepository.findById(circleId)
                 .orElseThrow(() -> new ResourceNotFoundException("circle", circleId))
                 .toCircle();
@@ -66,7 +66,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
     @Override
-    public Optional<List<EnrollmentEntity>> getEnrollments(User user) {
+    public Optional<List<EnrollmentEntity>> readEnrollmentList(User user) {
         List<CircleMemberEntity> circleMembers = circleMemberRepository.findByUserId(user.getId());
         if (circleMembers.isEmpty()) return Optional.empty();
 

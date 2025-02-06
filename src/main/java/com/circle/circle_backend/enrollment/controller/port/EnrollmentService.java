@@ -11,9 +11,9 @@ import java.util.Optional;
 public interface EnrollmentService {
     Enrollment createAndUpdate(User user, Long circleId);
 
-    Optional<EnrollmentEntity> getEnrollmentState(User user, Long circleId);
+    Optional<EnrollmentEntity> readEnrollmentState(User user, Long circleId);
 
-    Optional<List<EnrollmentEntity>> getEnrollments(User user);
+    Optional<List<EnrollmentEntity>> readEnrollmentList(User user);
 
     Enrollment acceptOrDecline(User user, Long enrollmentId, EnrollmentState enrollmentState);
 }

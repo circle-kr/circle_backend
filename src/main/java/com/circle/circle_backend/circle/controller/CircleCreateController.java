@@ -4,15 +4,19 @@ import com.circle.circle_backend.circle.dto.response.CircleResponse;
 import com.circle.circle_backend.circle.dto.request.CircleCreateRequest;
 import com.circle.circle_backend.circle.controller.port.CircleService;
 import com.circle.circle_backend.circle.domain.Circle;
+import com.circle.circle_backend.common.response.CommonResponse;
+import com.circle.circle_backend.common.response.responseEnum.SuccessResponseEnum;
 import com.circle.circle_backend.security.service.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,11 +26,24 @@ public class CircleCreateController {
     private final CircleService circleService;
 
     @PostMapping
-    public ResponseEntity<CircleResponse> create(@RequestBody CircleCreateRequest circleCreateRequest,
-                                                 @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<CommonResponse<CircleResponse>> create(
+            @RequestBody CircleCreateRequest circleCreateRequest,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            UriComponentsBuilder uriBuilder) {
+
         Circle circle = circleService.create(circleCreateRequest, userDetails.getUser());
-        return ResponseEntity.
-                status(HttpStatus.CREATED)
-                .body(CircleResponse.from(circle));
+
+        URI location = uriBuilder
+                .path("/api/circles/{id}")
+                .buildAndExpand(circle.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(
+                CommonResponse.<CircleResponse>builder()
+                        .response(SuccessResponseEnum.CREATE_CIRCLE)
+                        .data(CircleResponse.from(circle))
+                        .build()
+        );
     }
+
 }

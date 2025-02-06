@@ -4,6 +4,8 @@ import com.circle.circle_backend.circle.dto.response.CircleResponse;
 import com.circle.circle_backend.circle.controller.port.CircleService;
 import com.circle.circle_backend.circle.domain.Circle;
 import com.circle.circle_backend.circle.domain.enums.Category;
+import com.circle.circle_backend.common.response.CommonResponse;
+import com.circle.circle_backend.common.response.responseEnum.SuccessResponseEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +21,25 @@ public class CircleReadController {
     public final CircleService circleService;
 
     @GetMapping
-    public ResponseEntity<List<CircleResponse>> readCircles(@RequestParam(defaultValue = "LANGUAGE")Category category) {
+    public ResponseEntity<CommonResponse<List<CircleResponse>>> readCircles(@RequestParam(defaultValue = "LANGUAGE")Category category) {
         List<Circle> circles = circleService.readCircles(category);
         List<CircleResponse> circleReadResponses = circles.stream()
                 .map(CircleResponse::from)
                 .toList();
-        return ResponseEntity.
-                status(HttpStatus.OK)
-                .body(circleReadResponses);
+        return ResponseEntity.ok()
+                .body(CommonResponse.<List<CircleResponse>>builder()
+                        .response(SuccessResponseEnum.READ_CIRCLE_LIST)
+                        .data(circleReadResponses)
+                        .build());
     }
 
     @GetMapping("/{circleId}")
-    public ResponseEntity<CircleResponse> readCircleInfo(@PathVariable Long circleId) {
+    public ResponseEntity<CommonResponse<CircleResponse>> readCircleInfo(@PathVariable Long circleId) {
         Circle circle = circleService.readCircleInfo(circleId);
-        CircleResponse circleReadResponses = CircleResponse.from(circle);
-        return ResponseEntity.
-                status(HttpStatus.OK)
-                .body(circleReadResponses);
+        return ResponseEntity.ok()
+                .body(CommonResponse.<CircleResponse>builder()
+                        .response(SuccessResponseEnum.READ_CIRCLE_INFO)
+                        .data(CircleResponse.from(circle))
+                        .build());
     }
 }

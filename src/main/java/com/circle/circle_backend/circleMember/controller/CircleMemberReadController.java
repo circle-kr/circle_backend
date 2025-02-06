@@ -3,6 +3,8 @@ package com.circle.circle_backend.circleMember.controller;
 import com.circle.circle_backend.circleMember.controller.dto.response.CircleMemberResponse;
 import com.circle.circle_backend.circleMember.controller.port.CircleMemberService;
 import com.circle.circle_backend.circleMember.domain.CircleMember;
+import com.circle.circle_backend.common.response.CommonResponse;
+import com.circle.circle_backend.common.response.responseEnum.SuccessResponseEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,14 +22,17 @@ public class CircleMemberReadController {
     private final CircleMemberService circleMemberService;
 
     @GetMapping("/circles/{circleId}/members")
-    public ResponseEntity<List<CircleMemberResponse>> read(@PathVariable Long circleId) {
+    public ResponseEntity<CommonResponse<List<CircleMemberResponse>>> read(@PathVariable Long circleId) {
         List<CircleMember> circleMember = circleMemberService.read(circleId);
 
         List<CircleMemberResponse> circleMemberResponses = circleMember.stream()
                 .map(CircleMemberResponse::from)
                 .toList();
 
-        return ResponseEntity
-                .ok(circleMemberResponses);
+        return ResponseEntity.ok()
+                .body(CommonResponse.<List<CircleMemberResponse>>builder()
+                        .response(SuccessResponseEnum.READ_CIRCLE_MEMBER_LIST)
+                        .data(circleMemberResponses)
+                        .build());
     }
 }
