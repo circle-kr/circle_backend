@@ -1,7 +1,8 @@
 package com.circle.circle_backend.user.controller;
 
 import com.circle.circle_backend.common.TestContainer;
-import com.circle.circle_backend.user.domain.UserCreateRequest;
+import com.circle.circle_backend.user.dto.request.UserCreateRequest;
+import com.circle.circle_backend.user.dto.response.UserResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

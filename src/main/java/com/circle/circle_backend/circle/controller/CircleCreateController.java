@@ -1,7 +1,7 @@
 package com.circle.circle_backend.circle.controller;
 
-import com.circle.circle_backend.circle.controller.port.CircleResponse;
-import com.circle.circle_backend.circle.domain.port.CircleCreateRequest;
+import com.circle.circle_backend.circle.dto.response.CircleResponse;
+import com.circle.circle_backend.circle.dto.request.CircleCreateRequest;
 import com.circle.circle_backend.circle.controller.port.CircleService;
 import com.circle.circle_backend.circle.domain.Circle;
 import com.circle.circle_backend.security.service.UserDetailsImpl;

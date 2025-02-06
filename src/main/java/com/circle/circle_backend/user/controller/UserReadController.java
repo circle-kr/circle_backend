@@ -1,7 +1,10 @@
 package com.circle.circle_backend.user.controller;
 
 import com.circle.circle_backend.security.service.UserDetailsImpl;
+import com.circle.circle_backend.user.controller.port.UserService;
 import com.circle.circle_backend.user.domain.User;
+import com.circle.circle_backend.user.dto.response.MyInfoResponse;
+import com.circle.circle_backend.user.dto.response.UserInfoResponse;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

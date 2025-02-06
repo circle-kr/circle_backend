@@ -1,6 +1,7 @@
 package com.circle.circle_backend.enrollment.controller;
 
-import com.circle.circle_backend.enrollment.controller.port.EnrollmentResponse;
+import com.circle.circle_backend.enrollment.controller.dto.response.EnrollmentResponse;
+import com.circle.circle_backend.enrollment.controller.port.EnrollmentService;
 import com.circle.circle_backend.enrollment.infrastructure.entity.EnrollmentEntity;
 import com.circle.circle_backend.security.service.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;

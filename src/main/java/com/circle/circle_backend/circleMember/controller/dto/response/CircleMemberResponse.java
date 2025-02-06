@@ -1,4 +1,4 @@
-package com.circle.circle_backend.circleMember.controller.port;
+package com.circle.circle_backend.circleMember.controller.dto.response;
 
 import com.circle.circle_backend.circle.domain.Circle;
 import com.circle.circle_backend.circleMember.domain.CircleMember;

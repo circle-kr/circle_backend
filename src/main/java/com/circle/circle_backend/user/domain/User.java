@@ -1,6 +1,7 @@
 package com.circle.circle_backend.user.domain;
 
 import com.circle.circle_backend.user.domain.enums.Language;
+import com.circle.circle_backend.user.dto.request.UserCreateRequest;
 import lombok.Builder;
 import lombok.Getter;
 

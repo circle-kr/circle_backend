@@ -1,6 +1,6 @@
 package com.circle.circle_backend.enrollment.service;
 
-import com.circle.circle_backend.enrollment.controller.EnrollmentService;
+import com.circle.circle_backend.enrollment.controller.port.EnrollmentService;
 import com.circle.circle_backend.enrollment.domain.Enrollment;
 import com.circle.circle_backend.enrollment.domain.enums.EnrollmentState;
 import com.circle.circle_backend.enrollment.infrastructure.entity.EnrollmentEntity;

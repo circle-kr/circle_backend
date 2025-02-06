@@ -1,4 +1,4 @@
-package com.circle.circle_backend.user.controller;
+package com.circle.circle_backend.user.dto.response;
 
 import com.circle.circle_backend.user.domain.User;
 import lombok.Builder;

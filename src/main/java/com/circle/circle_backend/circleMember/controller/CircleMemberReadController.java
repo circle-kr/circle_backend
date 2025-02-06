@@ -1,6 +1,6 @@
 package com.circle.circle_backend.circleMember.controller;
 
-import com.circle.circle_backend.circleMember.controller.port.CircleMemberResponse;
+import com.circle.circle_backend.circleMember.controller.dto.response.CircleMemberResponse;
 import com.circle.circle_backend.circleMember.controller.port.CircleMemberService;
 import com.circle.circle_backend.circleMember.domain.CircleMember;
 import lombok.RequiredArgsConstructor;

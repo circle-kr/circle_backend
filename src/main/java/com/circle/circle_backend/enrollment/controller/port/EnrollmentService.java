@@ -1,4 +1,4 @@
-package com.circle.circle_backend.enrollment.controller;
+package com.circle.circle_backend.enrollment.controller.port;
 
 import com.circle.circle_backend.enrollment.domain.Enrollment;
 import com.circle.circle_backend.enrollment.domain.enums.EnrollmentState;

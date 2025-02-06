@@ -1,9 +1,9 @@
 package com.circle.circle_backend.circle.controller;
 
-import com.circle.circle_backend.circle.controller.port.CircleResponse;
+import com.circle.circle_backend.circle.dto.response.CircleResponse;
 import com.circle.circle_backend.circle.controller.port.CircleService;
 import com.circle.circle_backend.circle.domain.Circle;
-import com.circle.circle_backend.circle.domain.port.CircleUpdateRequest;
+import com.circle.circle_backend.circle.dto.request.CircleUpdateRequest;
 import com.circle.circle_backend.security.service.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,9 +1,9 @@
 package com.circle.circle_backend.user.service;
 
 import com.circle.circle_backend.common.TestContainer;
-import com.circle.circle_backend.user.controller.UserService;
+import com.circle.circle_backend.user.controller.port.UserService;
 import com.circle.circle_backend.user.domain.User;
-import com.circle.circle_backend.user.domain.UserCreateRequest;
+import com.circle.circle_backend.user.dto.request.UserCreateRequest;
 import com.circle.circle_backend.user.mock.FakeUserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
