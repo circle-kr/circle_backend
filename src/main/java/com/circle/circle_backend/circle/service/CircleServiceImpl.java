@@ -11,7 +11,7 @@ import com.circle.circle_backend.circle.infrastructure.entity.CircleEntity;
 import com.circle.circle_backend.circleMember.service.CircleMemberRepository;
 import com.circle.circle_backend.common.response.responseEnum.ErrorResponseEnum;
 import com.circle.circle_backend.exception.impl.ResourceNotFoundException;
-import com.circle.circle_backend.exception.impl.UnauthorizedException;
+import com.circle.circle_backend.exception.impl.AuthException;
 import com.circle.circle_backend.user.domain.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +55,7 @@ public class CircleServiceImpl implements CircleService {
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.CIRCLE_MEMBER_NOT_FOUND)).toCircleMember();
 
         if (circleMember.getUserRole() != UserRole.ADMIN) {
-            throw new UnauthorizedException(ErrorResponseEnum.UNAUTHORIZED);
+            throw new AuthException(ErrorResponseEnum.UNAUTHORIZED);
         }
 
         return circleEntity.updateFrom(circleUpdateRequest).toCircle();

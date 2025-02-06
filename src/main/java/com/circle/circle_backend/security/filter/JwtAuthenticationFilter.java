@@ -1,7 +1,10 @@
 package com.circle.circle_backend.security.filter;
 
+import com.circle.circle_backend.common.response.responseEnum.ErrorResponseEnum;
+import com.circle.circle_backend.exception.impl.AuthException;
 import com.circle.circle_backend.security.dto.LoginRequest;
 import com.circle.circle_backend.security.utils.JwtTokenUtils;
+import com.circle.circle_backend.user.domain.enums.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -37,7 +39,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     LoginRequest.class);
 
             List<GrantedAuthority> authorities = Collections.singletonList(
-                    new SimpleGrantedAuthority("ROLE_USER"));
+                    new SimpleGrantedAuthority(Role.ROLE_USER.name()));
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -48,42 +50,31 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             );
         } catch (IOException e) {
             log.error("로그인 시도(attemptAuthentication) 입출력 예외 발생 {}", e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            throw new AuthException(ErrorResponseEnum.AUTHENTICATION_IO_EXCEPTION);
         }
     }
 
     // 로그인 성공시 처리
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                            FilterChain chain, Authentication authentication) throws IOException {
-        // accessToken, refreshToken 생성
+                                            FilterChain chain, Authentication authentication) {
+        // Access Token & Refresh Token 생성
         String email = authentication.getName();
         String accessToken = jwtTokenUtils.createAccessToken(email);
         String refreshToken = jwtTokenUtils.createRefreshToken(email);
 
-        // 헤더에 accessToken 담기
+        // Access Token을 응답 헤더에 추가
         response.addHeader(AUTH_ACCESS_HEADER, accessToken);
 
-        // HTTP-Only Secure Cookie로 Refresh Token 설정
+        // Refresh Token을 HttpOnly Secure Cookie로 설정
         ResponseCookie cookie = ResponseCookie.from(AUTH_REFRESH_HEADER, refreshToken)
-                .httpOnly(true) // JavaScript에서 접근 불가
-                .secure(true) // HTTPS에서만 전송
-                .maxAge(REFRESH_TOKEN_EXPIRE_TIME) // 유효기간 (7일)
-                .path("/") // 쿠키의 유효 경로
-                .sameSite("Strict") // SameSite 설정
+                .httpOnly(true)
+                .secure(false) // 개발환경에서만 false로 설정
+                .path("/")
+                .sameSite("Lax") // 개발 환경에서는 Lax 설정 (Cross-Site 요청 가능)
                 .build();
 
-        // refreshToken을 쿠키로 응답에 추가
         response.addHeader("Set-Cookie", cookie.toString());
-
-        // accessToken JSON 응답에 포함
-        response.setContentType("application/json; charset=UTF-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        // JSON 형식으로 accessToken 응답
-        response.getWriter().write(new ObjectMapper().writeValueAsString(Collections.singletonMap("accessToken", accessToken)));
-
     }
-
 }
 
