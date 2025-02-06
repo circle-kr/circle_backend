@@ -1,4 +1,4 @@
-package com.circle.circle_backend.circle.controller.port;
+package com.circle.circle_backend.circle.dto.response;
 
 import com.circle.circle_backend.circle.domain.Circle;
 import com.circle.circle_backend.circle.domain.enums.Category;

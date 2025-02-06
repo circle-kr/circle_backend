@@ -1,8 +1,8 @@
-package com.circle.circle_backend.user.controller;
+package com.circle.circle_backend.user.controller.port;
 
 import com.circle.circle_backend.user.domain.User;
-import com.circle.circle_backend.user.domain.UserCreateRequest;
-import com.circle.circle_backend.user.domain.UserPatchRequest;
+import com.circle.circle_backend.user.dto.request.UserCreateRequest;
+import com.circle.circle_backend.user.dto.request.UserPatchRequest;
 
 public interface UserService {
 

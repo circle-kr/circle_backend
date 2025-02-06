@@ -1,5 +1,6 @@
 package com.circle.circle_backend.user.domain;
 
+import com.circle.circle_backend.user.dto.request.UserCreateRequest;
 import com.circle.circle_backend.user.mock.FakePasswordUtils;
 import org.junit.jupiter.api.Test;
 

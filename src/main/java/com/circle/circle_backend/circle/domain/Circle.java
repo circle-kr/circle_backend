@@ -2,7 +2,7 @@ package com.circle.circle_backend.circle.domain;
 
 import com.circle.circle_backend.circle.domain.enums.Category;
 import com.circle.circle_backend.circle.domain.enums.Characteristic;
-import com.circle.circle_backend.circle.domain.port.CircleCreateRequest;
+import com.circle.circle_backend.circle.dto.request.CircleCreateRequest;
 import lombok.Builder;
 import lombok.Getter;
 

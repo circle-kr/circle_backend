@@ -1,6 +1,6 @@
 package com.circle.circle_backend.user.infrastructure.entity;
 import com.circle.circle_backend.user.domain.User;
-import com.circle.circle_backend.user.domain.UserPatchRequest;
+import com.circle.circle_backend.user.dto.request.UserPatchRequest;
 import com.circle.circle_backend.user.domain.enums.Language;
 import jakarta.persistence.*;
 
