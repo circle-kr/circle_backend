@@ -32,7 +32,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Override
     public Enrollment createAndUpdate(User user, Long circleId) {
         Circle circle = circleRepository.findById(circleId)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.CIRCLE_NOT_FOUND))
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND))
                 .toCircle();
 
         Optional<EnrollmentEntity> optionalEnrollmentEntity =
@@ -60,7 +60,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Override
     public Optional<EnrollmentEntity> readEnrollmentState(User user, Long circleId) {
         circleRepository.findById(circleId)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.CIRCLE_NOT_FOUND))
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND))
                 .toCircle();
 
         return enrollmentRepository.findByUserIdAndCircleId(user.getId(), circleId);
@@ -85,7 +85,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Override
     public Enrollment acceptOrDecline(User user, Long enrollmentId, EnrollmentState enrollmentState) {
         EnrollmentEntity enrollmentEntity = enrollmentRepository.findById(enrollmentId)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.ENROLLMENT_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
 
         enrollmentEntity = enrollmentEntity.updateEnrollmentState(enrollmentState);
 
