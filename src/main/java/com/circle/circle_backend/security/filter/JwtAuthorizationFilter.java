@@ -1,7 +1,10 @@
 package com.circle.circle_backend.security.filter;
 
+import com.circle.circle_backend.common.response.responseEnum.ErrorResponseEnum;
+import com.circle.circle_backend.exception.impl.AuthException;
 import com.circle.circle_backend.security.utils.JwtTokenUtils;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -30,25 +34,27 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-
-        String requestUri = request.getRequestURI();
-
-        // 인증이 필요 없는 경로
-        if (requestUri.startsWith("/api")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         String accessToken = jwtTokenUtils.getAccessToken(request); // 헤더에서 AccessToken 가져오기
-
-        if (jwtTokenUtils.validateToken(accessToken)) {
-            log.info("유효한 accessToken");
-            authenticateWithAccessToken(accessToken);
-        } else {
-            log.info("유효하지 않은 accessToken");
-            Claims claims = jwtTokenUtils.parseClaims(accessToken);
-            createNewAccessTokenWithRefreshToken(request, response, claims.getSubject());
+        try {
+            if (StringUtils.hasText(accessToken)) {
+                if (jwtTokenUtils.validateToken(accessToken)) {
+                    log.info("유효한 accessToken");
+                    authenticateWithAccessToken(accessToken);
+                } else {
+                    log.info("유효하지 않은 accessToken");
+                    Claims claims = jwtTokenUtils.parseClaims(accessToken);
+                    createNewAccessTokenWithRefreshToken(request, response, claims.getSubject());
+                }
+            }
+        } catch (ExpiredJwtException e) {
+            log.warn("Access Token has expired: {}", e.getMessage());
+            throw new AuthException(ErrorResponseEnum.EXPIRED_TOKEN);
+        } catch (Exception e) {
+            log.error("Unexpected error during token validation: {}", e.getMessage());
+            SecurityContextHolder.clearContext(); // 인증 정보 초기화
+            throw new AuthException(ErrorResponseEnum.UNEXPECTED_AUTH_ERROR);
         }
+
         filterChain.doFilter(request, response);
     }
 
@@ -75,16 +81,20 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         log.info("refreshToken 검증 시도");
         String refreshToken = jwtTokenUtils.getRefreshToken(request);
 
-        // refreshToken이 유효한 토큰인지 확인
+        if (refreshToken == null || refreshToken.isEmpty()) {
+            log.warn("Refresh Token is missing or empty. Clearing security context.");
+            SecurityContextHolder.clearContext();
+            throw new AuthException(ErrorResponseEnum.TOKEN_NOT_FOUND);
+        }
         if (jwtTokenUtils.validateToken(refreshToken)) {
             log.info("유효한 refreshToken");
-            // accessToken 다시 생성, 헤더에 전달
-            String newAccessToken = jwtTokenUtils.createAccessToken(email);
+            String newAccessToken = jwtTokenUtils.createAccessToken(email); // accessToken 다시 생성, 헤더에 전달
             response.addHeader(AUTH_ACCESS_HEADER, newAccessToken);
             authenticateWithAccessToken(newAccessToken);
         } else {
             log.warn("유효하지 않은 Refresh Token: email={}", email);
             SecurityContextHolder.clearContext(); // 인증 정보 초기화
+            throw new AuthException(ErrorResponseEnum.INVALID_TOKEN);
         }
     }
 

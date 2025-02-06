@@ -1,4 +1,4 @@
-package com.circle.circle_backend.security.filter.port;
+package com.circle.circle_backend.security.dto;
 
 import lombok.Getter;
 
