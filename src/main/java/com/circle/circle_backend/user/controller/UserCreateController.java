@@ -8,7 +8,6 @@ import com.circle.circle_backend.user.dto.request.UserCreateRequest;
 import com.circle.circle_backend.user.dto.response.UserResponse;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
