@@ -3,7 +3,7 @@ package com.circle.circle_backend.circle.infrastructure.entity;
 import com.circle.circle_backend.circle.domain.Circle;
 import com.circle.circle_backend.circle.domain.enums.Category;
 import com.circle.circle_backend.circle.domain.enums.Characteristic;
-import com.circle.circle_backend.circle.domain.port.CircleUpdateRequest;
+import com.circle.circle_backend.circle.dto.request.CircleUpdateRequest;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.circle.circle_backend.user.domain;
+package com.circle.circle_backend.user.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;

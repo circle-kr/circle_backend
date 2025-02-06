@@ -1,4 +1,4 @@
-package com.circle.circle_backend.user.domain;
+package com.circle.circle_backend.user.dto.request;
 
 import com.circle.circle_backend.user.domain.enums.Language;
 import lombok.Builder;

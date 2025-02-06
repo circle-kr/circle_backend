@@ -1,7 +1,7 @@
 package com.circle.circle_backend.common;
 
 import com.circle.circle_backend.user.controller.UserCreateController;
-import com.circle.circle_backend.user.controller.UserService;
+import com.circle.circle_backend.user.controller.port.UserService;
 import com.circle.circle_backend.user.mock.FakePasswordUtils;
 import com.circle.circle_backend.user.mock.FakeUserRepository;
 import com.circle.circle_backend.user.service.UserRepository;
