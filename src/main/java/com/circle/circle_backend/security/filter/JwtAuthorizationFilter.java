@@ -32,6 +32,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        String method = request.getMethod();
+
+        // 인증이 필요 없는 URL 및 HTTP 메서드 설정
+        return "/api/users".equals(requestURI) && "POST".equalsIgnoreCase(method);
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
@@ -98,6 +107,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             throw new AuthException(ErrorResponseEnum.INVALID_TOKEN);
         }
     }
+
 
 }
 

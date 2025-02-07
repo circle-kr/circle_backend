@@ -8,7 +8,6 @@ import com.circle.circle_backend.security.utils.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -63,16 +62,13 @@ public class SecurityConfig {
                 )
 
                 // 요청 인증 설정
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/users").permitAll()  // 회원가입 허용 (POST /api/users)
-                        .requestMatchers("/api/login").permitAll()  // 로그인 허용
-                        .anyRequest().authenticated()  // 나머지는 인증 필요
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        .anyRequest().authenticated() // 그 외 요청은 인증 필요
                 )
                 // 필터 순서 설정
                 .addFilterBefore(corsFilter, ChannelProcessingFilter.class) // CORS 필터
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthorizationFilter(jwtTokenUtils, userDetailsServiceImpl), UsernamePasswordAuthenticationFilter.class);
-
 
         return http.build();
     }
