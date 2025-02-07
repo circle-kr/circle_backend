@@ -6,9 +6,9 @@ import com.circle.circle_backend.user.controller.port.UserService;
 import com.circle.circle_backend.user.domain.User;
 import com.circle.circle_backend.user.dto.request.UserCreateRequest;
 import com.circle.circle_backend.user.dto.response.UserResponse;
+import jakarta.validation.Valid;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +27,7 @@ public class UserCreateController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<CommonResponse<UserResponse>> create(@RequestBody UserCreateRequest userCreateRequest,
+    public ResponseEntity<CommonResponse<UserResponse>> create(@Valid @RequestBody UserCreateRequest userCreateRequest,
                                                                UriComponentsBuilder uriBuilder) {
         User user = userService.create(userCreateRequest);
         URI location = uriBuilder

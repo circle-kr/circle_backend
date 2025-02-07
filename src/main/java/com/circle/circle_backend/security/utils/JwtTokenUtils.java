@@ -55,8 +55,11 @@ public class JwtTokenUtils {
     // 헤더에서 accessToken 가져오기
     public String getAccessToken(HttpServletRequest request) {
         String token = request.getHeader(AUTH_ACCESS_HEADER);
-        if (!StringUtils.hasText(token) && !token.startsWith(BEARER_PREFIX)) {
-            return null;
+        if (!StringUtils.hasText(token)) {
+            throw new AuthException(ErrorResponseEnum.TOKEN_NOT_FOUND);
+        }
+        if (!token.startsWith(BEARER_PREFIX)) {
+            throw new AuthException(ErrorResponseEnum.TOKEN_NOT_FOUND);
         }
         return token.substring(BEARER_PREFIX.length());
     }

@@ -15,7 +15,7 @@ public class CircleResponse {
     private String introduce;
     private String notification;
     private Category category;
-    private List<Characteristic> characteristics = new ArrayList<>();
+    private List<Characteristic> characteristics;
 
     public static CircleResponse from(Circle circle) {
         return CircleResponse.builder()

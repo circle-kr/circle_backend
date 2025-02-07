@@ -23,7 +23,7 @@ public class CircleMemberServiceImpl implements CircleMemberService {
     @Override
     public List<CircleMember> read(Long circleId) {
         circleRepository.findById(circleId)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.CIRCLE_MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
 
         return circleMemberRepository.findById(circleId).stream()
                 .map(CircleMemberEntity::toCircleMember)
