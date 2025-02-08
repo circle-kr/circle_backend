@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 
 @Service
@@ -41,6 +42,9 @@ public class CircleServiceImpl implements CircleService {
 
     @Override
     public List<Circle> readCircles(Category category) {
+        if (!EnumSet.allOf(Category.class).contains(category)) {
+            throw new ResourceException(ErrorResponseEnum.BAD_REQUEST_RESOURCE);
+        }
         return circleRepository.findByCategory(category).orElse(Collections.emptyList());
     }
 
