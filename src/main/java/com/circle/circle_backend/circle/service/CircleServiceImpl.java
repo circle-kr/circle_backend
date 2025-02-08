@@ -10,7 +10,7 @@ import com.circle.circle_backend.circle.dto.request.CircleUpdateRequest;
 import com.circle.circle_backend.circle.infrastructure.entity.CircleEntity;
 import com.circle.circle_backend.circleMember.service.CircleMemberRepository;
 import com.circle.circle_backend.common.response.responseEnum.ErrorResponseEnum;
-import com.circle.circle_backend.exception.impl.ResourceNotFoundException;
+import com.circle.circle_backend.exception.impl.ResourceException;
 import com.circle.circle_backend.exception.impl.AuthException;
 import com.circle.circle_backend.user.domain.User;
 import jakarta.transaction.Transactional;
@@ -29,6 +29,10 @@ public class CircleServiceImpl implements CircleService {
 
     @Override
     public Circle create(CircleCreateRequest circleCreateRequest, User user) {
+
+        if (circleRepository.existsByName(circleCreateRequest.getName())) {
+            throw new ResourceException(ErrorResponseEnum.DUPLICATED_RESOURCE);
+        }
         Circle circle = circleRepository.save(Circle.from(circleCreateRequest));
         CircleMember circleMember = CircleMember.of(circle, user, UserRole.ADMIN);
         circleMemberRepository.save(circleMember);
@@ -43,16 +47,16 @@ public class CircleServiceImpl implements CircleService {
     @Override
     public Circle readCircleInfo(Long id) {
         return circleRepository.findById(id).map(CircleEntity::toCircle)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
+                .orElseThrow(() -> new ResourceException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
     }
 
     @Override
     public Circle updateCircleInfo(Long circleId, User user, CircleUpdateRequest circleUpdateRequest) {
         CircleEntity circleEntity = circleRepository.findById(circleId)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
+                .orElseThrow(() -> new ResourceException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
 
         CircleMember circleMember = circleMemberRepository.findByCircleIdAndUserId(circleId, user.getId())
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND)).toCircleMember();
+                .orElseThrow(() -> new ResourceException(ErrorResponseEnum.RESOURCE_NOT_FOUND)).toCircleMember();
 
         if (circleMember.getUserRole() != UserRole.ADMIN) {
             throw new AuthException(ErrorResponseEnum.UNAUTHORIZED);

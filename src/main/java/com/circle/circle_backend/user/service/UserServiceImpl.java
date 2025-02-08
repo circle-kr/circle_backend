@@ -1,8 +1,7 @@
 package com.circle.circle_backend.user.service;
 
 import com.circle.circle_backend.common.response.responseEnum.ErrorResponseEnum;
-import com.circle.circle_backend.exception.impl.DuplicatedResourceException;
-import com.circle.circle_backend.exception.impl.ResourceNotFoundException;
+import com.circle.circle_backend.exception.impl.ResourceException;
 import com.circle.circle_backend.security.utils.PasswordUtils;
 import com.circle.circle_backend.user.controller.port.UserService;
 import com.circle.circle_backend.user.domain.User;
@@ -26,10 +25,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(UserCreateRequest userCreateRequest) {
         if (userRepository.existsByEmail(userCreateRequest.getEmail())) {
-            throw new DuplicatedResourceException(ErrorResponseEnum.DUPLICATED_RESOURCE);
+            throw new ResourceException(ErrorResponseEnum.DUPLICATED_RESOURCE);
         }
         if (userRepository.existsByNickname(userCreateRequest.getNickname())) {
-            throw new DuplicatedResourceException(ErrorResponseEnum.DUPLICATED_RESOURCE);
+            throw new ResourceException(ErrorResponseEnum.DUPLICATED_RESOURCE);
         }
         String encodedPassword = passwordUtils.encode(userCreateRequest.getPassword());
         User user = User.from(userCreateRequest, encodedPassword);
@@ -42,7 +41,7 @@ public class UserServiceImpl implements UserService {
         Long userId = user.getId();
 
         return userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND))
+                .orElseThrow(() -> new ResourceException(ErrorResponseEnum.RESOURCE_NOT_FOUND))
                 .toUser();
     }
 
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService {
     public User patch(User user, UserPatchRequest userPatchRequest) {
         Long userId = user.getId();
         UserEntity userEntity = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
+                .orElseThrow(() -> new ResourceException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
 
         return userEntity.patch(userPatchRequest).toUser();
     }
@@ -58,7 +57,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User readUserInfo(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND))
+                .orElseThrow(() -> new ResourceException(ErrorResponseEnum.RESOURCE_NOT_FOUND))
                 .toUser();
     }
 }

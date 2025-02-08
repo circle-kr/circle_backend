@@ -34,4 +34,9 @@ public class CircleRepositoryImpl implements CircleRepository {
         return circleJpaRepository.findById(id);
     }
 
+    @Override
+    public boolean existsByName(String name) {
+        return circleJpaRepository.existsByName(name);
+    }
+
 }

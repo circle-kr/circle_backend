@@ -5,7 +5,7 @@ import com.circle.circle_backend.circleMember.controller.port.CircleMemberServic
 import com.circle.circle_backend.circleMember.domain.CircleMember;
 import com.circle.circle_backend.circleMember.infrastructure.entity.CircleMemberEntity;
 import com.circle.circle_backend.common.response.responseEnum.ErrorResponseEnum;
-import com.circle.circle_backend.exception.impl.ResourceNotFoundException;
+import com.circle.circle_backend.exception.impl.ResourceException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class CircleMemberServiceImpl implements CircleMemberService {
     @Override
     public List<CircleMember> read(Long circleId) {
         circleRepository.findById(circleId)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
+                .orElseThrow(() -> new ResourceException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
 
         return circleMemberRepository.findById(circleId).stream()
                 .map(CircleMemberEntity::toCircleMember)

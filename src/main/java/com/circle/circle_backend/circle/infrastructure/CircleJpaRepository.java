@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface CircleJpaRepository extends JpaRepository<CircleEntity, Long> {
 
     Optional<List<CircleEntity>> findByCategory(Category category);
+
+    boolean existsByName(String name);
 }
