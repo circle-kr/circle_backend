@@ -22,6 +22,7 @@ public class CircleMemberEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
     public static CircleMemberEntity from(CircleMember circleMember) {

@@ -26,11 +26,13 @@ public class CircleEntity {
     private String notification;
 
     @Column(name = "category")
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @ElementCollection
     @CollectionTable(name = "circle_characteristics", joinColumns = @JoinColumn(name = "circle_id"))
     @Column(name = "characteristic")
+    @Enumerated(EnumType.STRING)
     private List<Characteristic> characteristics = new ArrayList<>();
 
     public static CircleEntity from(Circle circle) {

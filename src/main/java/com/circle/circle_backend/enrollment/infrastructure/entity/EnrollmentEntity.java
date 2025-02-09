@@ -23,6 +23,7 @@ public class EnrollmentEntity {
     UserEntity user;
 
     @Column(name = "enrollment_state")
+    @Enumerated(EnumType.STRING)
     EnrollmentState enrollmentState;
 
     public static EnrollmentEntity from(Enrollment enrollment) {

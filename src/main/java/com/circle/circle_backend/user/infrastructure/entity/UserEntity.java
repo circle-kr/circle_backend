@@ -44,6 +44,7 @@ public class UserEntity {
     @ElementCollection
     @CollectionTable(name = "available_languages", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "language")
+    @Enumerated(EnumType.STRING)
     private List<Language> languages = new ArrayList<>();
 
     @Column(name = "bio")
