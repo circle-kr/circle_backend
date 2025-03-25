@@ -2,8 +2,7 @@ package com.circle.circle_backend.circleMember.infrastructure;
 
 
 import com.circle.circle_backend.circleMember.domain.CircleMember;
-import com.circle.circle_backend.circleMember.infrastructure.entity.CircleMemberEntity;
-import com.circle.circle_backend.circleMember.service.CircleMemberRepository;
+import com.circle.circle_backend.circleMember.service.port.CircleMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,21 +17,21 @@ public class CircleMemberRepositoryImpl implements CircleMemberRepository {
 
     @Override
     public CircleMember save(CircleMember circleMember) {
-        return circleMemberJpaRepository.save(CircleMemberEntity.from(circleMember)).toCircleMember();
+        return circleMemberJpaRepository.save(circleMember);
     }
 
     @Override
-    public Optional<CircleMemberEntity> findByCircleIdAndUserId(Long circleId, Long id) {
-        return circleMemberJpaRepository.findByCircleEntityIdAndUserEntityId(circleId, id);
+    public Optional<CircleMember> findByCircleIdAndUserId(Long circleId, Long id) {
+        return circleMemberJpaRepository.findByCircleIdAndUserId(circleId, id);
     }
 
     @Override
-    public List<CircleMemberEntity> findByUserId(Long userId) {
-        return circleMemberJpaRepository.findByUserEntityId(userId);
+    public List<CircleMember> findByUserId(Long userId) {
+        return circleMemberJpaRepository.findByUserId(userId);
     }
 
     @Override
-    public List<CircleMemberEntity> findById(Long circleId) {
-        return circleMemberJpaRepository.findByCircleEntityId(circleId);
+    public List<CircleMember> findById(Long circleId) {
+        return circleMemberJpaRepository.findByCircleId(circleId);
     }
 }

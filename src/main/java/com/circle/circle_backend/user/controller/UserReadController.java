@@ -4,7 +4,6 @@ import com.circle.circle_backend.common.response.CommonResponse;
 import com.circle.circle_backend.common.response.responseEnum.SuccessResponseEnum;
 import com.circle.circle_backend.security.service.UserDetailsImpl;
 import com.circle.circle_backend.user.controller.port.UserService;
-import com.circle.circle_backend.user.domain.User;
 import com.circle.circle_backend.user.dto.response.MyInfoResponse;
 import com.circle.circle_backend.user.dto.response.UserInfoResponse;
 import lombok.Builder;
@@ -23,23 +22,23 @@ public class UserReadController {
 
     @GetMapping
     public ResponseEntity<CommonResponse<MyInfoResponse>> readMyInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        User user = userService.readMyInfo(userDetails.getUser());
+        MyInfoResponse myInfoResponse = userService.readMyInfo(userDetails.getUser().getId());
 
         return ResponseEntity.ok()
                 .body(CommonResponse.<MyInfoResponse>builder()
-                        .data(MyInfoResponse.from(user))
-                        .response(SuccessResponseEnum.READ_MY_INFO)
+                        .data(myInfoResponse)
+                        .response(SuccessResponseEnum.READ_RESOURCES)
                         .build());
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<CommonResponse<UserInfoResponse>> readUserInfo(@PathVariable Long userId) {
-        User user = userService.readUserInfo(userId);
+        UserInfoResponse userInfoResponse = userService.readUserInfo(userId);
 
         return ResponseEntity.ok()
                 .body(CommonResponse.<UserInfoResponse>builder()
-                        .data(UserInfoResponse.from(user))
-                        .response(SuccessResponseEnum.READ_USER_INFO)
+                        .data(userInfoResponse)
+                        .response(SuccessResponseEnum.READ_RESOURCES)
                         .build());
     }
 }

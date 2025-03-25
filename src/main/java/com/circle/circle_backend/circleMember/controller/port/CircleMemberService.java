@@ -1,10 +1,10 @@
 package com.circle.circle_backend.circleMember.controller.port;
 
 
-import com.circle.circle_backend.circleMember.domain.CircleMember;
+import com.circle.circle_backend.circleMember.dto.response.CircleMemberResponse;
 
 import java.util.List;
 
 public interface CircleMemberService {
-    List<CircleMember> read(Long circleId);
+    List<CircleMemberResponse> read(Long circleId);
 }

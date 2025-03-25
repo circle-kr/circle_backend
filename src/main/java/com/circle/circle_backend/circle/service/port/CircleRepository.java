@@ -1,9 +1,8 @@
-package com.circle.circle_backend.circle.service;
+package com.circle.circle_backend.circle.service.port;
 
 
-import com.circle.circle_backend.circle.domain.Circle;
 import com.circle.circle_backend.circle.domain.enums.Category;
-import com.circle.circle_backend.circle.infrastructure.entity.CircleEntity;
+import com.circle.circle_backend.circle.domain.Circle;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +13,9 @@ public interface CircleRepository {
 
     Optional<List<Circle>> findByCategory(Category category);
 
-    Optional<CircleEntity> findById(Long id);
+    Optional<Circle> findById(Long id);
 
     boolean existsByName(String name);
+
+    boolean existsById(Long circleId);
 }

@@ -1,15 +1,15 @@
 package com.circle.circle_backend.circleMember.infrastructure;
 
-import com.circle.circle_backend.circleMember.infrastructure.entity.CircleMemberEntity;
+import com.circle.circle_backend.circleMember.domain.CircleMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface CircleMemberJpaRepository extends JpaRepository<CircleMemberEntity, Long> {
-    Optional<CircleMemberEntity> findByCircleEntityIdAndUserEntityId(Long circleId, Long userId);
+public interface CircleMemberJpaRepository extends JpaRepository<CircleMember, Long> {
+    Optional<CircleMember> findByCircleIdAndUserId(Long circleId, Long userId);
 
-    List<CircleMemberEntity> findByUserEntityId(Long userId);
+    List<CircleMember> findByUserId(Long userId);
 
-    List<CircleMemberEntity> findByCircleEntityId(Long circleId);
+    List<CircleMember> findByCircleId(Long circleId);
 }
