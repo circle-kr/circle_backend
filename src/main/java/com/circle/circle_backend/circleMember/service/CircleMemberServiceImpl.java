@@ -1,11 +1,11 @@
 package com.circle.circle_backend.circleMember.service;
 
-import com.circle.circle_backend.circle.service.CircleRepository;
+import com.circle.circle_backend.circle.service.port.CircleRepository;
+import com.circle.circle_backend.circleMember.dto.response.CircleMemberResponse;
 import com.circle.circle_backend.circleMember.controller.port.CircleMemberService;
-import com.circle.circle_backend.circleMember.domain.CircleMember;
-import com.circle.circle_backend.circleMember.infrastructure.entity.CircleMemberEntity;
+import com.circle.circle_backend.circleMember.service.port.CircleMemberRepository;
 import com.circle.circle_backend.common.response.responseEnum.ErrorResponseEnum;
-import com.circle.circle_backend.exception.impl.ResourceNotFoundException;
+import com.circle.circle_backend.exception.impl.ResourceException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,12 +21,13 @@ public class CircleMemberServiceImpl implements CircleMemberService {
     private final CircleMemberRepository circleMemberRepository;
 
     @Override
-    public List<CircleMember> read(Long circleId) {
-        circleRepository.findById(circleId)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
+    public List<CircleMemberResponse> read(Long circleId) {
+        if (!circleRepository.existsById(circleId)) {
+            throw new ResourceException(ErrorResponseEnum.RESOURCE_NOT_FOUND);
+        }
 
         return circleMemberRepository.findById(circleId).stream()
-                .map(CircleMemberEntity::toCircleMember)
+                .map(CircleMemberResponse::from)
                 .toList();
     }
 }

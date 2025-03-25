@@ -2,12 +2,10 @@ package com.circle.circle_backend.circle.controller;
 
 import com.circle.circle_backend.circle.dto.response.CircleResponse;
 import com.circle.circle_backend.circle.controller.port.CircleService;
-import com.circle.circle_backend.circle.domain.Circle;
 import com.circle.circle_backend.circle.domain.enums.Category;
 import com.circle.circle_backend.common.response.CommonResponse;
 import com.circle.circle_backend.common.response.responseEnum.SuccessResponseEnum;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,24 +20,22 @@ public class CircleReadController {
 
     @GetMapping
     public ResponseEntity<CommonResponse<List<CircleResponse>>> readCircles(@RequestParam(defaultValue = "LANGUAGE")Category category) {
-        List<Circle> circles = circleService.readCircles(category);
-        List<CircleResponse> circleReadResponses = circles.stream()
-                .map(CircleResponse::from)
-                .toList();
+        List<CircleResponse> circleReadResponses = circleService.readCircles(category);
+
         return ResponseEntity.ok()
                 .body(CommonResponse.<List<CircleResponse>>builder()
-                        .response(SuccessResponseEnum.READ_CIRCLE_LIST)
+                        .response(SuccessResponseEnum.READ_RESOURCES)
                         .data(circleReadResponses)
                         .build());
     }
 
     @GetMapping("/{circleId}")
     public ResponseEntity<CommonResponse<CircleResponse>> readCircleInfo(@PathVariable Long circleId) {
-        Circle circle = circleService.readCircleInfo(circleId);
+        CircleResponse circleResponse = circleService.readCircleInfo(circleId);
         return ResponseEntity.ok()
                 .body(CommonResponse.<CircleResponse>builder()
-                        .response(SuccessResponseEnum.READ_CIRCLE_INFO)
-                        .data(CircleResponse.from(circle))
+                        .response(SuccessResponseEnum.READ_RESOURCES)
+                        .data(circleResponse)
                         .build());
     }
 }

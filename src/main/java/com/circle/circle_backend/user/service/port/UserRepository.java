@@ -1,7 +1,6 @@
-package com.circle.circle_backend.user.service;
+package com.circle.circle_backend.user.service.port;
 
 import com.circle.circle_backend.user.domain.User;
-import com.circle.circle_backend.user.infrastructure.entity.UserEntity;
 
 import java.util.Optional;
 
@@ -11,7 +10,7 @@ public interface UserRepository {
 
     Optional<User> findByEmail(String email);
 
-    Optional<UserEntity> findById(Long userId);
+    Optional<User> findById(Long userId);
 
     boolean existsByEmail(String email);
 

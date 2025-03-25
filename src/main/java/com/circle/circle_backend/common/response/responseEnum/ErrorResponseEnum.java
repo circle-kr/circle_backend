@@ -11,6 +11,7 @@ public enum ErrorResponseEnum implements Response {
 
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "Resource Cannot Be Found"),
     DUPLICATED_RESOURCE(HttpStatus.CONFLICT, "Duplicated Resource"),
+    BAD_REQUEST_RESOURCE(HttpStatus.BAD_REQUEST, "Bad Requested Resource"),
 
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "Unauthorized User"),
 

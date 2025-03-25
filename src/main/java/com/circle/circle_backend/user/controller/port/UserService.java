@@ -1,16 +1,18 @@
 package com.circle.circle_backend.user.controller.port;
 
-import com.circle.circle_backend.user.domain.User;
 import com.circle.circle_backend.user.dto.request.UserCreateRequest;
 import com.circle.circle_backend.user.dto.request.UserPatchRequest;
+import com.circle.circle_backend.user.dto.response.MyInfoResponse;
+import com.circle.circle_backend.user.dto.response.UserInfoResponse;
+import com.circle.circle_backend.user.dto.response.UserResponse;
 
 public interface UserService {
 
-    User create(UserCreateRequest userCreateRequest);
+    UserResponse create(UserCreateRequest userCreateRequest);
 
-    User readMyInfo(User user);
+    MyInfoResponse readMyInfo(Long userId);
 
-    User patch(User user, UserPatchRequest userPatchRequest);
+    MyInfoResponse patch(Long userId, UserPatchRequest userPatchRequest);
 
-    User readUserInfo(Long userId);
+    UserInfoResponse readUserInfo(Long userId);
 }

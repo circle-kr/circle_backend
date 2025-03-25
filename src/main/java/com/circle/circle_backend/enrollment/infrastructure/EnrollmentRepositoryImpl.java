@@ -1,8 +1,6 @@
 package com.circle.circle_backend.enrollment.infrastructure;
 
 import com.circle.circle_backend.enrollment.domain.Enrollment;
-import com.circle.circle_backend.enrollment.domain.enums.EnrollmentState;
-import com.circle.circle_backend.enrollment.infrastructure.entity.EnrollmentEntity;
 import com.circle.circle_backend.enrollment.service.EnrollmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,22 +16,22 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
     private final EnrollmentJpaRepository enrollmentJpaRepository;
 
     @Override
-    public Optional<EnrollmentEntity> findByUserIdAndCircleId(Long userId, Long circleId) {
+    public Optional<Enrollment> findByUserIdAndCircleId(Long userId, Long circleId) {
         return enrollmentJpaRepository.findByUserIdAndCircleId(userId, circleId);
     }
 
     @Override
-    public EnrollmentEntity save(Enrollment enrollment) {
-        return enrollmentJpaRepository.save(EnrollmentEntity.from(enrollment));
+    public Enrollment save(Enrollment enrollment) {
+        return enrollmentJpaRepository.save(enrollment);
     }
 
     @Override
-    public List<EnrollmentEntity> findByCircleIdInAndEnrollmentState(List<Long> circleIds, EnrollmentState enrollmentState) {
-        return enrollmentJpaRepository.findByCircleIdInAndEnrollmentState(circleIds, enrollmentState);
+    public List<Enrollment> findPendingByCircleIds(List<Long> circleIds) {
+        return enrollmentJpaRepository.findPendingByCircleIds(circleIds);
     }
 
     @Override
-    public Optional<EnrollmentEntity> findById(Long enrollmentId) {
+    public Optional<Enrollment> findById(Long enrollmentId) {
         return enrollmentJpaRepository.findById(enrollmentId);
     }
 }

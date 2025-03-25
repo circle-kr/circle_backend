@@ -1,8 +1,7 @@
 package com.circle.circle_backend.circleMember.controller;
 
-import com.circle.circle_backend.circleMember.controller.dto.response.CircleMemberResponse;
+import com.circle.circle_backend.circleMember.dto.response.CircleMemberResponse;
 import com.circle.circle_backend.circleMember.controller.port.CircleMemberService;
-import com.circle.circle_backend.circleMember.domain.CircleMember;
 import com.circle.circle_backend.common.response.CommonResponse;
 import com.circle.circle_backend.common.response.responseEnum.SuccessResponseEnum;
 import lombok.RequiredArgsConstructor;
@@ -23,15 +22,11 @@ public class CircleMemberReadController {
 
     @GetMapping("/circles/{circleId}/members")
     public ResponseEntity<CommonResponse<List<CircleMemberResponse>>> read(@PathVariable Long circleId) {
-        List<CircleMember> circleMember = circleMemberService.read(circleId);
-
-        List<CircleMemberResponse> circleMemberResponses = circleMember.stream()
-                .map(CircleMemberResponse::from)
-                .toList();
+        List<CircleMemberResponse> circleMemberResponses = circleMemberService.read(circleId);
 
         return ResponseEntity.ok()
                 .body(CommonResponse.<List<CircleMemberResponse>>builder()
-                        .response(SuccessResponseEnum.READ_CIRCLE_MEMBER_LIST)
+                        .response(SuccessResponseEnum.READ_RESOURCES)
                         .data(circleMemberResponses)
                         .build());
     }

@@ -3,7 +3,6 @@ package com.circle.circle_backend.circle.controller;
 import com.circle.circle_backend.circle.dto.response.CircleResponse;
 import com.circle.circle_backend.circle.dto.request.CircleCreateRequest;
 import com.circle.circle_backend.circle.controller.port.CircleService;
-import com.circle.circle_backend.circle.domain.Circle;
 import com.circle.circle_backend.common.response.CommonResponse;
 import com.circle.circle_backend.common.response.responseEnum.SuccessResponseEnum;
 import com.circle.circle_backend.security.service.UserDetailsImpl;
@@ -26,22 +25,20 @@ public class CircleCreateController {
     private final CircleService circleService;
 
     @PostMapping
-    public ResponseEntity<CommonResponse<CircleResponse>> create(
-            @RequestBody CircleCreateRequest circleCreateRequest,
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            UriComponentsBuilder uriBuilder) {
-
-        Circle circle = circleService.create(circleCreateRequest, userDetails.getUser());
+    public ResponseEntity<CommonResponse<CircleResponse>> create(@RequestBody CircleCreateRequest circleCreateRequest,
+                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                 UriComponentsBuilder uriBuilder) {
+        CircleResponse circleResponse = circleService.create(circleCreateRequest, userDetails.getUser());
 
         URI location = uriBuilder
                 .path("/api/circles/{id}")
-                .buildAndExpand(circle.getId())
+                .buildAndExpand(circleResponse.getId())
                 .toUri();
 
         return ResponseEntity.created(location).body(
                 CommonResponse.<CircleResponse>builder()
-                        .response(SuccessResponseEnum.CREATE_CIRCLE)
-                        .data(CircleResponse.from(circle))
+                        .response(SuccessResponseEnum.CREATE_RESOURCES)
+                        .data(circleResponse)
                         .build()
         );
     }

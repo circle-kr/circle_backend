@@ -1,8 +1,7 @@
 package com.circle.circle_backend.user.infrastructure;
 
 import com.circle.circle_backend.user.domain.User;
-import com.circle.circle_backend.user.infrastructure.entity.UserEntity;
-import com.circle.circle_backend.user.service.UserRepository;
+import com.circle.circle_backend.user.service.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,16 +15,16 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User save(User user) {
-        return userJpaRepository.save(UserEntity.from(user)).toUser();
+        return userJpaRepository.save(user);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return userJpaRepository.findByEmail(email).map(UserEntity::toUser);
+        return userJpaRepository.findByEmail(email);
     }
 
     @Override
-    public Optional<UserEntity> findById(Long userId) {
+    public Optional<User> findById(Long userId) {
         return userJpaRepository.findById(userId);
     }
 

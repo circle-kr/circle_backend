@@ -1,15 +1,15 @@
 package com.circle.circle_backend.user.infrastructure;
 
-import com.circle.circle_backend.user.infrastructure.entity.UserEntity;
+import com.circle.circle_backend.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserJpaRepository extends JpaRepository<UserEntity, Long> {
+public interface UserJpaRepository extends JpaRepository<User, Long> {
 
-    Optional<UserEntity> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
-    Optional<UserEntity> findById(Long userId);
+    Optional<User> findById(Long userId);
 
     boolean existsByEmail(String email);
 

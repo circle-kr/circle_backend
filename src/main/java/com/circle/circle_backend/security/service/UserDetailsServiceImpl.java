@@ -1,7 +1,7 @@
 package com.circle.circle_backend.security.service;
 
 import com.circle.circle_backend.user.domain.User;
-import com.circle.circle_backend.user.service.UserRepository;
+import com.circle.circle_backend.user.service.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
