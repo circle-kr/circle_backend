@@ -67,6 +67,8 @@ public class SecurityConfig {
                 // 요청 인증 설정
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(HttpMethod.POST, "/api/users/signup").permitAll()  // 회원가입 허용 (POST /api/users)
+                        .requestMatchers(HttpMethod.GET, "/api/users/signup/email").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/users/signup/nickname").permitAll()
                         .requestMatchers("/api/users/login").permitAll()  // 로그인 허용
                         .anyRequest().authenticated() // 그 외 요청은 인증 필요
                 )

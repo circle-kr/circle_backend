@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 public enum SuccessResponseEnum implements Response {
     CREATE_RESOURCES(HttpStatus.CREATED, "Resource Is Created Successfully"),
     UPDATE_RESOURCES(HttpStatus.OK, "Resource Is Updated Successfully"),
-    READ_RESOURCES(HttpStatus.OK, "Resource Is Loaded Successfully");
+    READ_RESOURCES(HttpStatus.OK, "Resource Is Loaded Successfully"),
+    CHECK_RESOURCES(HttpStatus.OK, "Resource Is Checked Successfully");
 
     private final HttpStatus httpStatus;
     private final String message;

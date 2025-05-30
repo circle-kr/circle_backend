@@ -37,10 +37,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        String method = request.getMethod();
 
         // 인증이 필요 없는 URL 및 HTTP 메서드 설정
-        return "/api/users/signup".equals(requestURI) && "POST".equalsIgnoreCase(method);
+        return requestURI.startsWith("/api/users/signup");
     }
 
     @Override
