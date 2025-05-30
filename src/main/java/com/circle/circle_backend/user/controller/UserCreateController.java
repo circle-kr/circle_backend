@@ -25,7 +25,7 @@ public class UserCreateController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity<CommonResponse<UserResponse>> create(@Valid @RequestBody UserCreateRequest userCreateRequest,
                                                                UriComponentsBuilder uriBuilder) {
         UserResponse userResponse = userService.create(userCreateRequest);
