@@ -2,6 +2,7 @@ package com.circle.circle_backend.security.filter;
 
 import com.circle.circle_backend.common.response.responseEnum.ErrorResponseEnum;
 import com.circle.circle_backend.exception.impl.AuthException;
+import com.circle.circle_backend.security.service.LogoutService;
 import com.circle.circle_backend.security.utils.JwtTokenUtils;
 import com.circle.circle_backend.user.domain.enums.Role;
 import io.jsonwebtoken.Claims;
@@ -21,6 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Date;
 
 import static com.circle.circle_backend.security.constant.JwtTokenConstant.AUTH_ACCESS_HEADER;
 
@@ -30,29 +32,50 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtils jwtTokenUtils;
     private final UserDetailsService userDetailsService;
+    private final LogoutService logoutService;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        String method = request.getMethod();
 
         // 인증이 필요 없는 URL 및 HTTP 메서드 설정
-        return "/api/users".equals(requestURI) && "POST".equalsIgnoreCase(method);
+        return requestURI.startsWith("/api/users/signup");
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = jwtTokenUtils.getAccessToken(request); // 헤더에서 AccessToken 가져오기
+
         try {
+            String accessToken = jwtTokenUtils.getAccessToken(request); // 헤더에서 AccessToken 가져오기
+
             if (StringUtils.hasText(accessToken)) {
+
+                Claims claims = jwtTokenUtils.parseClaims(accessToken);
+                String email = claims.getSubject();
+                Date issuedAt = claims.getIssuedAt();
+
+                if (issuedAt == null) {
+                    log.warn("발급 시간이 없는 accessToken");
+                    throw new AuthException(ErrorResponseEnum.INVALID_TOKEN);
+                }
+
+                Long tokenIssuedAt = claims.getIssuedAt().getTime();
+
+                // 최소 유효 발급 시간 확인 (로그아웃 시간 이후 발급된 토큰인지 검증)
+                Long logoutTimestamp = logoutService.getUserLogoutTimestamp(email);
+                if (logoutTimestamp != null && tokenIssuedAt < logoutTimestamp) {
+                    log.warn("로그아웃된 accessToken");
+                    throw new AuthException(ErrorResponseEnum.INVALID_TOKEN);
+                }
+
+
                 if (jwtTokenUtils.validateToken(accessToken)) {
                     log.info("유효한 accessToken");
                     authenticateWithAccessToken(accessToken);
                 } else {
                     log.info("유효하지 않은 accessToken");
-                    Claims claims = jwtTokenUtils.parseClaims(accessToken);
                     createNewAccessTokenWithRefreshToken(request, response, claims.getSubject());
                 }
             }
@@ -107,8 +130,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             throw new AuthException(ErrorResponseEnum.INVALID_TOKEN);
         }
     }
-
-
 }
 
 

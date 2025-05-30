@@ -3,6 +3,7 @@ package com.circle.circle_backend.security.config;
 import com.circle.circle_backend.security.filter.CorsFilter;
 import com.circle.circle_backend.security.filter.JwtAuthenticationFilter;
 import com.circle.circle_backend.security.filter.JwtAuthorizationFilter;
+import com.circle.circle_backend.security.service.LogoutService;
 import com.circle.circle_backend.security.service.UserDetailsServiceImpl;
 import com.circle.circle_backend.security.utils.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class SecurityConfig {
 
     private final JwtTokenUtils jwtTokenUtils;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final LogoutService logoutService;
     private final CorsFilter corsFilter;
 
     @Bean
@@ -48,7 +50,7 @@ public class SecurityConfig {
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtTokenUtils);
         filter.setAuthenticationManager(authenticationManager()); // AuthenticationManager 설정
-        filter.setFilterProcessesUrl("/api/login"); // 커스텀 로그인 URL 설정
+        filter.setFilterProcessesUrl("/api/users/login"); // 커스텀 로그인 URL 설정
         return filter;
     }
 
@@ -64,15 +66,17 @@ public class SecurityConfig {
 
                 // 요청 인증 설정
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers(HttpMethod.POST, "/api/users").permitAll()  // 회원가입 허용 (POST /api/users)
-                        .requestMatchers(HttpMethod.GET, "/api/users").authenticated()  // 사용자 정보 조회는 인증 필요 (GET /api/users)
-                        .requestMatchers("/api/login").permitAll()  // 로그인 허용
+                        .requestMatchers(HttpMethod.POST, "/api/users/signup").permitAll()  // 회원가입 허용 (POST /api/users)
+                        .requestMatchers(HttpMethod.GET, "/api/users/signup/email").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/users/signup/nickname").permitAll()
+                        .requestMatchers("/api/users/login").permitAll()  // 로그인 허용
                         .anyRequest().authenticated() // 그 외 요청은 인증 필요
                 )
+
                 // 필터 순서 설정
                 .addFilterBefore(corsFilter, ChannelProcessingFilter.class) // CORS 필터
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthorizationFilter(jwtTokenUtils, userDetailsServiceImpl), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthorizationFilter(jwtTokenUtils, userDetailsServiceImpl, logoutService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

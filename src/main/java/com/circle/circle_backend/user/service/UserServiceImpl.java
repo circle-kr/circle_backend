@@ -5,11 +5,11 @@ import com.circle.circle_backend.exception.impl.ResourceException;
 import com.circle.circle_backend.security.utils.PasswordUtils;
 import com.circle.circle_backend.user.controller.port.UserService;
 import com.circle.circle_backend.user.dto.request.UserCreateRequest;
+import com.circle.circle_backend.user.dto.request.UserEmailCheckRequest;
+import com.circle.circle_backend.user.dto.request.UserNicknameCheckRequest;
 import com.circle.circle_backend.user.dto.request.UserPatchRequest;
 import com.circle.circle_backend.user.domain.User;
-import com.circle.circle_backend.user.dto.response.MyInfoResponse;
-import com.circle.circle_backend.user.dto.response.UserInfoResponse;
-import com.circle.circle_backend.user.dto.response.UserResponse;
+import com.circle.circle_backend.user.dto.response.*;
 import com.circle.circle_backend.user.service.port.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -76,5 +76,21 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceException(ErrorResponseEnum.RESOURCE_NOT_FOUND));
 
         return UserInfoResponse.from(user);
+    }
+
+    @Override
+    public UserEmailCheckResponse checkEmail(UserEmailCheckRequest userEmailCheckRequest) {
+        if (userRepository.existsByEmail(userEmailCheckRequest.getEmail())) {
+            throw new ResourceException(ErrorResponseEnum.DUPLICATED_RESOURCE);
+        }
+        return UserEmailCheckResponse.from(userEmailCheckRequest);
+    }
+
+    @Override
+    public UserNicknameCheckResponse checkNickname(UserNicknameCheckRequest userNicknameCheckRequest) {
+        if (userRepository.existsByNickname(userNicknameCheckRequest.getNickname())) {
+            throw new ResourceException(ErrorResponseEnum.DUPLICATED_RESOURCE);
+        }
+        return UserNicknameCheckResponse.from(userNicknameCheckRequest);
     }
 }

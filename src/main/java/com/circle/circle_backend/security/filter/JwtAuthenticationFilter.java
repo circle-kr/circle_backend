@@ -77,4 +77,3 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.addHeader("Set-Cookie", cookie.toString());
     }
 }
-
